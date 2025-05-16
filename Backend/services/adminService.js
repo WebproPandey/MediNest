@@ -55,3 +55,4 @@ exports.loginAdmin = async ({ email, password }) => {
     return { status: 500, success: false, message: "Internal Server Error" };
   }
 };
+
