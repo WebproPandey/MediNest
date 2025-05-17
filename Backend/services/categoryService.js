@@ -27,7 +27,6 @@ exports.createCategory = async ({categoryName}) =>{
 }
 
 
-
 exports.getAllCategory = async () => {
   try {
     const categories = await Category.find();
@@ -44,4 +43,18 @@ exports.getAllCategory = async () => {
       message: "Failed to fetch categories"
     };
   }
+};
+
+
+exports.updateCategory = async (id, categoryName) => {
+  const updated = await Category.findByIdAndUpdate(
+    id,
+    { categoryName },
+    { new: true }
+  );
+  return updated;
+};
+
+exports.deleteCategory = async (id) => {
+  await Category.findByIdAndDelete(id);
 };

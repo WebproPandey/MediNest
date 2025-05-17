@@ -30,11 +30,28 @@ exports.getSubcategoriesByCategory = async (req, res) => {
 };
 
 
-exports.getAllSubcategories = async (req, res) => {
+exports.updateSubcategory = async (req, res) => {
   try {
-    const subcategories = await subcategoryService.getAllSubcategories();
-    res.status(200).json({ success: true, data: subcategories });
+    const { subcategoryName, price, stock, description, categoryId } = req.body;
+    const images = req.files; 
+    const updated = await subcategoryService.updateSubcategory(
+      req.params.id,
+      { subcategoryName, price, stock, description, categoryId },
+      images
+    );
+    res.status(200).json({ success: true, data: updated });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+exports.deleteSubcategory = async (req, res) => {
+  try {
+    await subcategoryService.deleteSubcategory(req.params.id);
+    res.status(200).json({ success: true, message: "Subcategory deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+

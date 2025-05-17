@@ -29,3 +29,26 @@ exports.getSubcategoriesByCategory = async (categoryId) => {
 exports.getAllSubcategories = async () => {
   return await Subcategory.find().populate('category');
 }
+
+
+
+exports.updateSubcategory = async (id, data, images) => {
+  const updateData = { ...data };
+
+  if (images && images.length > 0) {
+    const imagePaths = images.map(file => file.path);
+    updateData.image = imagePaths[0]; 
+  }
+
+  const updatedSubcategory = await Subcategory.findByIdAndUpdate(
+    id,
+    updateData,
+    { new: true }
+  );
+
+  return updatedSubcategory;
+};
+
+exports.deleteSubcategory = async (id) => {
+  await Subcategory.findByIdAndDelete(id);
+};
