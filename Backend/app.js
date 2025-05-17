@@ -3,14 +3,13 @@ const express = require("express");
 const cors = require('cors');
 const connectdb =   require("./config/db")
 
-const  userRoute  = require("./routes/usersRoute")
-const  adminRoute  = require("./routes/adminRoute")
-const  consultationsRoute  = require("./routes/consultationsRoute")
+const  userRoute  = require("./routes/userRoute/usersRoute")
+const  adminRoute  = require("./routes/adminRoute/adminRoute")
+const  consultationsRoute  = require("./routes/consultantRoute/consultationsRoute")
 
-const categoryRoutes = require('./routes/categoryRoutes');
-const subcategoryRoutes = require('./routes/subcategoryRoutes');
-const productRoutes = require('./routes/productRoutes');
-
+const categoryRoutes = require('./routes/adminRoute/categoryRoutes');
+const subcategoryRoutes = require('./routes/adminRoute/subcategoryRoutes');
+const productRoutes = require('./routes/adminRoute/productRoutes');
 
 dotenv.config();
 const app = express();
@@ -18,7 +17,24 @@ const app = express();
 
 connectdb()
 
-app.use(cors());
+const adminOrigin = process.env.ADMIN_ORIGIN;
+const userOrigin = process.env.USER_ORIGIN;
+
+const allowedOrigins = [adminOrigin, userOrigin];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, 
+}));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
 
