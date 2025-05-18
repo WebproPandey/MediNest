@@ -1,24 +1,44 @@
-import { ADMIN_LOGIN_FAIL, ADMIN_LOGIN_REQUEST, ADMIN_LOGIN_SUCCESS, ADMIN_LOGOUT } from "../actionType/adminAction";
-
+import {
+  ADMIN_LOGIN_REQUEST,
+  ADMIN_LOGIN_SUCCESS,
+  ADMIN_LOGIN_FAIL,
+  ADMIN_LOGOUT,
+  ADMIN_REGISTER_REQUEST,
+  ADMIN_REGISTER_SUCCESS,
+  ADMIN_REGISTER_FAIL,
+} from "../actionType/adminAction";
 
 const initialState = {
   admin: null,
   loading: false,
   error: null,
-  isAuthenticated: true,
+ isAuthenticated: true,
+
 };
 
-export const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADMIN_LOGIN_REQUEST:
-      return { ...state, loading: true, error: null };
+    case ADMIN_REGISTER_REQUEST:
+      return { ...state, loading: true ,isAuthenticated:false};
+
     case ADMIN_LOGIN_SUCCESS:
-      return { ...state, loading: false, admin: action.payload ,isAuthenticated: true,};
+    case ADMIN_REGISTER_SUCCESS:
+      return { ...state, loading: false, admin: action.payload ,isAuthenticated: true,
+};
+
     case ADMIN_LOGIN_FAIL:
-      return { ...state, loading: false, error: action.payload };
+    case ADMIN_REGISTER_FAIL:
+      return { ...state, loading: false, error: action.payload ,isAuthenticated:false,};
+
     case ADMIN_LOGOUT:
-      return { admin: null, loading: false, error: null };
+      return { ...state, admin: null ,isAuthenticated:false};
+
     default:
       return state;
   }
 };
+
+export default authReducer;
+
+

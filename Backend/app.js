@@ -1,7 +1,25 @@
 const dotenv = require('dotenv');
+dotenv.config(); 
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const cors = require('cors');
 const connectdb =   require("./config/db")
+const passport = require("passport");
+require("./config/passport");
+
+const session = require("express-session");
+const app = express();
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || "your-secret-key",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  },
+}));
 
 const  userRoute  = require("./routes/userRoute/usersRoute")
 const  adminRoute  = require("./routes/adminRoute/adminRoute")
@@ -11,8 +29,6 @@ const categoryRoutes = require('./routes/adminRoute/categoryRoutes');
 const subcategoryRoutes = require('./routes/adminRoute/subcategoryRoutes');
 const productRoutes = require('./routes/adminRoute/productRoutes');
 
-dotenv.config();
-const app = express();
 
 
 connectdb()
@@ -37,6 +53,10 @@ app.use(cors({
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 app.use("/api/user" , userRoute)
