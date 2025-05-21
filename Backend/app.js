@@ -34,28 +34,20 @@ const productRoutes = require('./routes/adminRoute/productRoutes');
 connectdb()
 
 const adminOrigin = process.env.ADMIN_ORIGIN;
+// console.log(process.env.ADMIN_ORIGIN)
 const userOrigin = process.env.USER_ORIGIN;
 
 const allowedOrigins = [adminOrigin, userOrigin];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: process.env.ADMIN_ORIGIN,
   credentials: true, 
 }));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 
 

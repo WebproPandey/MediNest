@@ -26,6 +26,7 @@ exports.updateCategorySchema = Joi.object({
 
 exports.createSubcategorySchema = Joi.object({
   subcategoryName: Joi.string().min(2).max(50).required(),
+  productName: Joi.string().min(2).max(50).required(),
   price: Joi.number().required(),
   stock: Joi.number().required(),
   description: Joi.string().required(),

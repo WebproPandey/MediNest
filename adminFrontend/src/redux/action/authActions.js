@@ -18,6 +18,7 @@ export const registerAdmin = (name, email, password, navigate) => async (dispatc
       type: ADMIN_REGISTER_FAIL,
       payload: error.response?.data?.message || error.message,
     });
+    navigate("/login");
   }
 };
 

@@ -2,11 +2,11 @@ const subcategoryService = require("../../services/AdminServices/subcategoryServ
 
 exports.createSubcategory = async (req, res) => {
   try {
-    const { subcategoryName, price, stock, description,categoryId } = req.body;
+    const { subcategoryName ,productName , price, stock, description,categoryId } = req.body;
     const fileBuffer = req.file?.buffer;
 
     const subcategory = await subcategoryService.createSubcategory(
-      { subcategoryName, price, stock, description,categoryId },
+      { subcategoryName, price,  productName ,stock, description,categoryId },
       fileBuffer
     );
 
@@ -20,7 +20,10 @@ exports.createSubcategory = async (req, res) => {
 exports.getSubcategoriesByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
+    console.log("Requested categoryId:", categoryId);
+    
     const subcategories = await subcategoryService.getSubcategoriesByCategory(categoryId);
+    consoel.log("subcategories:",subcategories)
 
     res.status(200).json({ success: true, data: subcategories });
   } catch (error) {
@@ -28,6 +31,7 @@ exports.getSubcategoriesByCategory = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 
 exports.updateSubcategory = async (req, res) => {

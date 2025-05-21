@@ -9,21 +9,21 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-router.get(
-  "/google/callback",
+router.get("/google/callback",
    passport.authenticate("google", { failureRedirect: "/login", session: false }),
    (req, res) => {
     const token = jwt.sign({ id: req.user._id, role: "admin" }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
+    //  console.log("Google login success, setting token cookie:", token);
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      secure:false,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
-    res.redirect("http://localhost:5173/admin/dashboard"); 
+    res.redirect("http://localhost:5173/dashboard"); 
   }
 );
 

@@ -8,6 +8,9 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { loadAdmin } from './redux/action/authActions'
 import AdminRegister from './pages/AdminRegister'
+import CategorySubcategoryManager from './components/CategorySubcategoryManager'
+import CategoryList from './components/CategoryList'
+import CategoryDetails from './components/CategoryDetails'
 
 const App = () => {
 
@@ -23,13 +26,13 @@ const App = () => {
       <Routes>
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<AdminRegister/>} />
-      <Route path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard/>
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/dashboard" element={ <ProtectedRoute> <Dashboard/> </ProtectedRoute>}>
+        {/* <Route index element={<Navigate to="manage-category" />} /> */}
+        <Route path="allProduct" element={<CategorySubcategoryManager/>} />
+        <Route path="categories" element={<CategoryList/>} />
+        <Route path="subcategories" element={<CategoryDetails/>} />
+      
+      </Route>
     </Routes>
   )
 }
