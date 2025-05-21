@@ -1,14 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchSubcategories } from "../redux/action/subcategoryActions";
+import { deleteSubcategory, fetchSubcategories } from "../redux/action/subcategoryActions";
+import SubcategoryForm from "./SubcategoryForm";
 
 const CategoryDetails = () => {
   const dispatch = useDispatch();
-  const { id: categoryId } = useParams(); // from route /admin/categories/:id
+  const { id: categoryId } = useParams();
 
-  const { subcategories, loading, error } = useSelector((state) => state.subcategories);
-  console.log("subcategories:" ,subcategories)
+  const { subcategories, loading, error } = useSelector(
+    (state) => state.subcategories
+  );
+  console.log("subcategories:", subcategories);
+  const [editSubcategory, setEditSubcategory] = useState(null);
+
+  const handleEdit = (sub) => {
+    setEditSubcategory(sub);
+  };
 
   useEffect(() => {
     if (categoryId) {
@@ -21,13 +29,11 @@ const CategoryDetails = () => {
       <h2 className="text-xl font-bold mb-4">Subcategory Products</h2>
       {loading ? (
         <p>Loading...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
       ) : subcategories.length === 0 ? (
         <p>No subcategory products found for this category.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {subcategories.map((sub) => (
+          {subcategories?.map((sub) => (
             <div key={sub._id} className="border p-4 rounded-lg shadow">
               <img
                 src={sub.image}
@@ -38,8 +44,32 @@ const CategoryDetails = () => {
               <p>{sub.description}</p>
               <p>Stock: {sub.stock}</p>
               <p className="font-bold">Price: ₹{sub.price}</p>
+              <div>
+                <button
+                  className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
+                  onClick={() => handleEdit(sub)}
+                >
+                  Edit
+                </button>
+
+                <button
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() => dispatch(deleteSubcategory(sub._id))}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
+
+          {editSubcategory && (
+            <SubcategoryForm
+              categoryId={categoryId}
+              initialData={editSubcategory}
+              editMode={true}
+              onClose={() => setEditSubcategory(null)}
+            />
+          )}
         </div>
       )}
     </div>

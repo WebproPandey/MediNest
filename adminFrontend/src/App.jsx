@@ -30,7 +30,7 @@ const App = () => {
         {/* <Route index element={<Navigate to="manage-category" />} /> */}
         <Route path="allProduct" element={<CategorySubcategoryManager/>} />
         <Route path="categories" element={<CategoryList/>} />
-        <Route path="subcategories" element={<CategoryDetails/>} />
+        <Route path="subcategories/:id" element={<CategoryDetails/>} />
       
       </Route>
     </Routes>

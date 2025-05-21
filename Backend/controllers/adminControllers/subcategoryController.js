@@ -1,4 +1,6 @@
 const subcategoryService = require("../../services/AdminServices/subcategoryService");
+const { streamUpload } = require("../../config/cloudinary");
+
 
 exports.createSubcategory = async (req, res) => {
   try {
@@ -20,10 +22,10 @@ exports.createSubcategory = async (req, res) => {
 exports.getSubcategoriesByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    console.log("Requested categoryId:", categoryId);
+    // console.log("Requested categoryId:", categoryId);
     
     const subcategories = await subcategoryService.getSubcategoriesByCategory(categoryId);
-    consoel.log("subcategories:",subcategories)
+    // console.log("subcategories:",subcategories)
 
     res.status(200).json({ success: true, data: subcategories });
   } catch (error) {
@@ -36,12 +38,16 @@ exports.getSubcategoriesByCategory = async (req, res) => {
 
 exports.updateSubcategory = async (req, res) => {
   try {
-    const { subcategoryName, price, stock, description, categoryId } = req.body;
-    const images = req.files; 
+    const { subcategoryName, productName ,price, stock, description, categoryId } = req.body;
+    const file = req.file; // <-- single file
+    const updateData = { subcategoryName, productName, price, stock, description, categoryId };
+    if (file) {
+      const result = await streamUpload(file.buffer, "subcategories");
+      updateData.image = result.secure_url;
+    }
     const updated = await subcategoryService.updateSubcategory(
       req.params.id,
-      { subcategoryName, price, stock, description, categoryId },
-      images
+      updateData
     );
     res.status(200).json({ success: true, data: updated });
   } catch (error) {

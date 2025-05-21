@@ -7,7 +7,7 @@ const { createSubcategorySchema, updateSubcategorySchema } = require('../../vali
 
 
 router.post("/", upload.single("image"),validateRequest(createSubcategorySchema), createSubcategory); 
-router.put("/:id", upload.array("images"), validateRequest(updateSubcategorySchema), updateSubcategory);
+router.put("/:id", upload.single("image"), validateRequest(updateSubcategorySchema), updateSubcategory);
 router.delete("/:id",deleteSubcategory);
 router.get("/category/:categoryId", getSubcategoriesByCategory);
 

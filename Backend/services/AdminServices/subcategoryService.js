@@ -1,5 +1,6 @@
 const Subcategory = require("../../models/subcategoryModel");
 const { streamUpload } = require("../../config/cloudinary");
+const mongoose = require("mongoose")
 
 exports.createSubcategory = async ({ subcategoryName,productName ,price, stock, description, categoryId }, fileBuffer) => {
   let imageUrl = null;
@@ -22,8 +23,8 @@ exports.createSubcategory = async ({ subcategoryName,productName ,price, stock, 
 };
 
 exports.getSubcategoriesByCategory = async (categoryId) => {
-  const subcategories = await Subcategory.find({ category: new mongoose.Types.ObjectId(categoryId) }).populate("category");;
-  console.log("subcategories:",subcategories)
+  const subcategories = await Subcategory.find({ category: categoryId  }).populate("category");;
+  // console.log("subcategories:",subcategories) 
   return subcategories;
 };
 
@@ -33,20 +34,13 @@ exports.getAllSubcategories = async () => {
 
 
 
-exports.updateSubcategory = async (id, data, images) => {
-  const updateData = { ...data };
+exports.updateSubcategory = async (id, data) => {
 
-  if (images && images.length > 0) {
-    const imagePaths = images.map(file => file.path);
-    updateData.image = imagePaths[0]; 
-  }
-
-  const updatedSubcategory = await Subcategory.findByIdAndUpdate(
+   const updatedSubcategory = await Subcategory.findByIdAndUpdate(
     id,
-    updateData,
+    data,
     { new: true }
   );
-
   return updatedSubcategory;
 };
 

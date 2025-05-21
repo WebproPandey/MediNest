@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { fetchCategories, deleteCategory } from "../redux/action/categoryActions";
 import CategoryForm from "./CategoryForm";
 import SubcategoryForm from "./SubcategoryForm";
@@ -21,6 +22,8 @@ const CategoryList = () => {
   const clearSelectedCategory = () => {
     setSelectedCategory(null);
   };
+
+  
 
   return (
     <div className="p-4">
@@ -57,6 +60,10 @@ const CategoryList = () => {
                   }
                 >
                   {subcategoryCategoryId === cat._id ? "Hide SubForm" : "Add Subcategory"}
+                </button>
+                <button
+                 className="bg-yellow-500 text-white px-2 py-1 rounded">
+                 <Link to={`/dashboard/subcategories/${cat._id}`}>View Subcategories</Link>
                 </button>
               </div>
             </div>

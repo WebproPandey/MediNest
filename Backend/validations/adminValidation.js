@@ -34,8 +34,13 @@ exports.createSubcategorySchema = Joi.object({
     "string.empty": `"categoryId" is required`,
     "any.required": `"categoryId" is a required field`,
   })
-});
+})
 
 exports.updateSubcategorySchema = Joi.object({
   subcategoryName: Joi.string().min(2).max(50).optional(),
-});
+  productName: Joi.string().min(2).max(50).optional(),
+  price: Joi.number().optional(),
+  stock: Joi.number().optional(),
+  description: Joi.string().optional(),
+  categoryId: Joi.string().optional(),
+}).options({ convert: true }); 

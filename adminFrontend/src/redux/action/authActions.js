@@ -27,7 +27,7 @@ export const loginAdmin = (email ,password ,navigate) => async (dispatch) => {
     dispatch({ type: ADMIN_LOGIN_REQUEST });
 
     const { data } = await api.post("/admin/login", {email,password});
-    console.log("Login success:", data);
+    // console.log("Login success:", data);
     dispatch({ type: ADMIN_LOGIN_SUCCESS, payload: data.data  });
   if (data.success) {
       navigate("/dashboard");

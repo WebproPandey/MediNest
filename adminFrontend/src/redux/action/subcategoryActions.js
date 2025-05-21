@@ -9,6 +9,13 @@ import {
   DELETE_SUBCATEGORY_SUCCESS,
   CREATE_SUBCATEGORY_REQUEST,
   CREATE_SUBCATEGORY_FAIL,
+  FETCH_ALL_SUBCATEGORIES_REQUEST,
+  FETCH_ALL_SUBCATEGORIES_SUCCESS,
+  FETCH_ALL_SUBCATEGORIES_FAIL,
+  UPDATE_SUBCATEGORY_REQUEST,
+  UPDATE_SUBCATEGORY_SUCCESS,
+  UPDATE_SUBCATEGORY_FAIL,
+  DELETE_SUBCATEGORY_REQUEST,
 } from "../actionType/adminAction";
 
 export const fetchSubcategories = (categoryId) => async (dispatch) => {
@@ -39,7 +46,11 @@ export const createSubcategory = (formValues) => async (dispatch) => {
       formData.append("image", formValues.image); 
     }
 
-    const { data } = await api.post("/subcategories", formData); 
+    const { data } = await api.post("/subcategories", formData ,
+     { headers: {
+          "Content-Type": "multipart/form-data",
+        },}
+    ); 
     console.log("data:" ,data)
     dispatch({ type:CREATE_SUBCATEGORY_SUCCESS, payload: data.data });
   } catch (error) {
@@ -50,7 +61,67 @@ export const createSubcategory = (formValues) => async (dispatch) => {
   }
 };
 
+// UPDATE SUBCATEGORY
+export const updateSubcategory = (id, formValues) => async (dispatch) => {
+  
+  try {
+    dispatch({ type: UPDATE_SUBCATEGORY_REQUEST });
+
+    const formData = new FormData();
+    formData.append("subcategoryName", formValues.subcategoryName);
+    formData.append("productName", formValues.productName);
+    formData.append("price",  formValues.price);
+    formData.append("stock",  formValues.stock);
+    formData.append("description", formValues.description);
+    formData.append("categoryId", formValues.categoryId);
+    
+    if (formValues.image) {
+      formData.append("image", formValues.image);
+    }
+
+    const { data } = await api.put(`/subcategories/${id}`, formData , 
+       { headers: {
+          "Content-Type": "multipart/form-data",
+        },}
+    );
+    dispatch({ type: UPDATE_SUBCATEGORY_SUCCESS, payload: data.data });
+  } catch (error) {
+    console.log("update error:" ,error)
+    dispatch({
+      type: UPDATE_SUBCATEGORY_FAIL,
+      payload: error.response?.data?.message || "Update failed",
+    });
+  }
+};
+
+// DELETE SUBCATEGORY
 export const deleteSubcategory = (id) => async (dispatch) => {
-  await api.delete(`/subcategories/${id}`);
-  dispatch({ type: DELETE_SUBCATEGORY_SUCCESS, payload: id });
+  try {
+    dispatch({ type: DELETE_SUBCATEGORY_REQUEST });
+    await api.delete(`/subcategories/${id}`);
+    dispatch({ type: DELETE_SUBCATEGORY_SUCCESS, payload: id });
+  } catch (error) {
+    console.error("Delete Error:", error);
+  }
+};
+
+
+
+export const fetchAllSubcategories = () => async (dispatch) => {
+  try {
+    dispatch({ type: FETCH_ALL_SUBCATEGORIES_REQUEST });
+
+    const { data } = await api.get("/products/all");
+    // console.log("data:" ,data)
+
+    dispatch({
+      type: FETCH_ALL_SUBCATEGORIES_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FETCH_ALL_SUBCATEGORIES_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
 };
