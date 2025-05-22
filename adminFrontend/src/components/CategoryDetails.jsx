@@ -11,7 +11,7 @@ const CategoryDetails = () => {
   const { subcategories, loading, error } = useSelector(
     (state) => state.subcategories
   );
-  console.log("subcategories:", subcategories);
+  // console.log("subcategories:", subcategories);
   const [editSubcategory, setEditSubcategory] = useState(null);
 
   const handleEdit = (sub) => {

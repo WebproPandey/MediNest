@@ -15,7 +15,6 @@ router.get("/google/callback",
     const token = jwt.sign({ id: req.user._id, role: "admin" }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
-    //  console.log("Google login success, setting token cookie:", token);
 
     res.cookie("token", token, {
       httpOnly: true,

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Admin = require("../models/adminModel");
+const User = require("../models/userModel");
 const generateToken = require("../utils/generateToken");
 
 passport.use(
@@ -30,6 +31,19 @@ passport.use(
         });
 
         done(null, newAdmin);
+        
+        let user = await User.findOne({ email: profile.emails[0].value });
+        if (!user) {
+          user = await User.create({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            password: "google-oauth" // dummy
+          });
+        }
+        done(null, user);
+
+
+
       } catch (err) {
         done(err, false);
       }
@@ -40,5 +54,7 @@ passport.use(
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
   const admin = await Admin.findById(id);
+   const user = await User.findById(id);
+  done(null, user);
   done(null, admin);
 });

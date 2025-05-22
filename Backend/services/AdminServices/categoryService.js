@@ -1,31 +1,62 @@
 const Category = require('../../models/categoryModel');
+const { streamUpload } = require('../../config/cloudinary')
 
 
 
-exports.createCategory = async ({categoryName}) =>{
-      try {
-        const existing = await Category.findOne({ categoryName });
-        if (existing) {
-          return { status: 400, success: false, message: 'Category already exists' };
-        }
-    
-        const category = await Category.create({ categoryName });
 
-        return {
-          status: 201,
-          success: true,
-          data: {
-            _id: category._id,
-            categoryName: category.categoryName,
-          }
-        };
-      } catch (error) {
-        console.error("Category  Error:", error);
-        return { status: 500, success: false, message: "Internal Server Error" };
+
+exports.createCategory = async ({ categoryName }, imageBuffer) => 
+  {
+
+  try {
+    const existing = await Category.findOne({ categoryName });
+    if (existing) {
+      return { status: 400, success: false, message: 'Category already exists' };
+    }
+
+    let uploadedImage = null;
+    if (imageBuffer) {
+      const result = await streamUpload(imageBuffer, "categories");
+      uploadedImage = result.secure_url;
+    }
+
+    const category = await Category.create({ categoryName, image: uploadedImage });
+
+    return {
+      status: 201,
+      success: true,
+      data: {
+        _id: category._id,
+        categoryName: category.categoryName,
+        image: category.image,
       }
+    };
+  } catch (error) {
+    console.error("Category Creation Error:", error);
+    return { status: 500, success: false, message: "Internal Server Error" };
+  }
+};
 
-}
 
+exports.updateCategory = async (id, categoryName, imageBuffer) => {
+  let imageUrl;
+
+  if (imageBuffer) {
+    const result = await streamUpload(imageBuffer, "categories");
+    imageUrl = result.secure_url;
+  }
+
+  const updated = await Category.findByIdAndUpdate(
+    id,
+    { 
+      ...(categoryName && { categoryName }),
+      ...(imageUrl && { image: imageUrl })
+    },
+    { new: true }
+  );
+
+  return updated;
+};
 
 exports.getAllCategory = async () => {
   try {
@@ -43,16 +74,6 @@ exports.getAllCategory = async () => {
       message: "Failed to fetch categories"
     };
   }
-};
-
-
-exports.updateCategory = async (id, categoryName) => {
-  const updated = await Category.findByIdAndUpdate(
-    id,
-    { categoryName },
-    { new: true }
-  );
-  return updated;
 };
 
 exports.deleteCategory = async (id) => {

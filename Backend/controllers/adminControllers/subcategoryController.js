@@ -22,11 +22,7 @@ exports.createSubcategory = async (req, res) => {
 exports.getSubcategoriesByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    // console.log("Requested categoryId:", categoryId);
-    
     const subcategories = await subcategoryService.getSubcategoriesByCategory(categoryId);
-    // console.log("subcategories:",subcategories)
-
     res.status(200).json({ success: true, data: subcategories });
   } catch (error) {
     console.error("getSubcategoriesByCategory Error:", error);

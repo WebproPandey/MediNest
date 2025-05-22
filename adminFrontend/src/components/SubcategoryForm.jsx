@@ -63,15 +63,19 @@ const SubcategoryForm = ({ categoryId, initialData = null, onSuccess ,editMode, 
     if (editMode &&  initialData) {
       dispatch(updateSubcategory(initialData._id, processedData)).then(() => {
         if (onSuccess) onSuccess();
+         if (onClose) onClose();
       });
+    onClose();
+
     } else {
       dispatch(createSubcategory(processedData)).then(() => {
         dispatch(fetchSubcategories(categoryId));
         if (onSuccess) onSuccess();
+        if (onClose) onClose();
         
       });
+
     }
-    onClose();
 
 
     setSubcategoryData({
@@ -88,12 +92,15 @@ const SubcategoryForm = ({ categoryId, initialData = null, onSuccess ,editMode, 
   return (
      <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg w-[90%] md:w-[500px] relative">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
-          onClick={onClose}
-        >
+         {onClose && (
+
+           <button
+           className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
+           onClick={onClose}
+           >
           ❌
         </button>
+        )}
 
         <h2 className="text-xl font-bold mb-4">
           {editMode ? "Edit Subcategory" : "Add Subcategory"}

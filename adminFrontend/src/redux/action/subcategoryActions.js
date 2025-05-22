@@ -22,7 +22,7 @@ export const fetchSubcategories = (categoryId) => async (dispatch) => {
   try {
     dispatch({ type: FETCH_SUBCATEGORIES_REQUEST });
     const { data } = await api.get(`/subcategories/category/${categoryId}`);
-    console.log("data:",data)
+    // console.log("data:",data)
     dispatch({ type: FETCH_SUBCATEGORIES_SUCCESS, payload: data.data });
   } catch (error) {
     console.log("SUBCATEGORIEFAIL:",error)
@@ -51,7 +51,7 @@ export const createSubcategory = (formValues) => async (dispatch) => {
           "Content-Type": "multipart/form-data",
         },}
     ); 
-    console.log("data:" ,data)
+    // console.log("data:" ,data)
     dispatch({ type:CREATE_SUBCATEGORY_SUCCESS, payload: data.data });
   } catch (error) {
     dispatch({
