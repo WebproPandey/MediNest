@@ -12,7 +12,7 @@ const categories = [
 
 const Category = () => {
   return (
-    <div className="w-full py-10 px-4 bg-white rounded-md">
+    <div className="w-full py-6 px-4 bg-gray-100 rounded-md">
       <div className="text-black font-bold text-2xl flex items-center gap-2 mb-6">
         <FaStar className="text-yellow-500" /> Featured Categories
       </div>

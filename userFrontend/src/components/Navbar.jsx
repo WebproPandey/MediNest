@@ -12,7 +12,7 @@ const Navbar = () => {
   const firstName = user?.name?.split(" ")[0];
 
   return (
-    <nav className="w-full text-sm font-medium sticky top-[-10%] z-[99] ">
+    <nav className="w-full text-sm font-medium sticky top-[-10%] z-[99]  shadow-lg ">
       {/* Top bar */}
       <div className="bg-gray-100 text-gray-600 py-2 px-6 flex justify-end space-x-4">
         <TopBar/>

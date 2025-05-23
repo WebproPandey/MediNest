@@ -1,6 +1,7 @@
 import React from "react";
 import SwiperSlideBanner from "./SwiperSlide";
 import Category from "./Category";
+import '../App.css'
 
 
 
@@ -71,8 +72,8 @@ const bannerData3 = [
 
   return (
     <div className="w-full  min-h-screen ">
-        <div className="swipersection h-[85vh] w-full  flex justify-center gap-2  items-center  py-10 ">
-            <div className="leftside w-[60%] h-full bg-red-300">
+        <div className="swipersection h-[80vh] w-full  flex justify-center gap-2  items-center  py-4 ">
+            <div className="leftside w-[60%] h-full ">
                 <SwiperSlideBanner data={bannerData1}/>
             </div>
             <div className="rightside w-[35%] h-full  flex flex-col  gap-2">
@@ -84,7 +85,7 @@ const bannerData3 = [
                 </div>
             </div>
         </div>
-        <div className="categorysection min-h-[30vh] w-full px-8 py-3">
+        <div className="categorysection min-h-[30vh] w-full px-8 ">
           <Category/>
         </div>
      

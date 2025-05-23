@@ -24,7 +24,7 @@ export default function SwiperSlideBanner({ data }) {
         pagination={{
           clickable: false,
         }}
-        navigation={true}
+        navigation={false}
         // modules={[Autoplay]}
         className="mySwiper"
       >
