@@ -55,9 +55,9 @@ const ShowProduct = () => {
         </div>
 
         <Swiper
-          slidesPerView={3}
-          spaceBetween={50}
-          centeredSlides={true}
+          slidesPerView={4}
+          spaceBetween={30}
+          centeredSlides={false}
           pagination={false}
           navigation={true}
           modules={[Pagination, Navigation]}

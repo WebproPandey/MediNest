@@ -21,15 +21,15 @@ app.use(session({
   },
 }));
 
-const  userRoute  = require("./routes/userRoute/usersRoute")
 const  adminRoute  = require("./routes/adminRoute/adminRoute")
 const  consultationsRoute  = require("./routes/consultantRoute/consultationsRoute")
-
 const categoryRoutes = require('./routes/adminRoute/categoryRoutes');
 const subcategoryRoutes = require('./routes/adminRoute/subcategoryRoutes');
 const productRoutes = require('./routes/adminRoute/productRoutes');
 
 
+const  userRoute  = require("./routes/userRoute/usersRoute")
+const  useCategory = require("./routes/userRoute/categoriesRoute")
 
 connectdb()
 
@@ -57,14 +57,13 @@ app.use(passport.initialize());
 
 
 
-app.use("/api/user" , userRoute)
 app.use("/api/admin" , adminRoute)
 app.use("/api/consultations" , consultationsRoute)
-
-
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subcategoryRoutes);
 app.use('/api/products', productRoutes);
 
+app.use("/api/user" , userRoute)
+app.use("/api" , useCategory)
 
 module.exports = app; 

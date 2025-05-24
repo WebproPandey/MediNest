@@ -29,7 +29,7 @@ const CategoryForm = ({ selectedCategory, clearSelectedCategory }) => {
     }
 
     setCategoryName("");
-    setImage(null);
+    setImage("");
   };
 
   return (

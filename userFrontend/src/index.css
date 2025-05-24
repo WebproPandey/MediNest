@@ -25,28 +25,23 @@
 }
 
 
-
-
-.ShowProduct .swiper-wrapper{
-  transform: translate3d(0px, 0px, 0px) ;
-  /* transform: translate3d(273.667px, 0px, 0px) ; */
-  padding-top: 4vw;
-} 
-
-
  .swiper-button-prev, .swiper-button-next {
     position: absolute;
     top: 5% !important;
-    /* width: calc(var(--swiper-navigation-size) / 44 * 27); */
-    /* height: var(--swiper-navigation-size); */
-    /* margin-top: calc(0px - (var(--swiper-navigation-size) / 2)); */
     z-index: 10;
     cursor: pointer;
-    display: flex
-;
+    display: flex;
     align-items: center;
     justify-content: center;
-    /* color: var(--swiper-navigation-color, var(--swiper-theme-color)); */
 }
+.FeedbackSection .swiper  {
+  padding: 10px 50px;
+}
+
+
+.FeedbackSection .swiper-button-prev , .swiper-button-next {
+  top: 50% !important;
+}
+
 
 

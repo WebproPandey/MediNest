@@ -42,12 +42,12 @@ const CategoryList = () => {
                <h1 className="text-2xl  capitalize font-medium">
                 {cat.categoryName}
                 </h1>  
-              <span className="h-[20vh] w-[20vw] bg-red-300">
+              <span className="h-[20vh] w-[20vw] ">
                 {cat.image && (
                   <img
                   src={cat.image}
                   alt="Category"
-                  className="w-full h-full inline-block rounded mr-2 object-cover"
+                  className="w-full h-full inline-block rounded mr-2 object-contain"
                   />
                 )}
               </span>

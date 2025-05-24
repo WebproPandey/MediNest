@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, logout, getAllCategories, getProductsByCategory, getUserProfile } = require('../../controllers/userController/userController');
+const { registerUser, loginUser, logout, getUserProfile } = require('../../controllers/userController/userController');
 const { registerUserSchema, loginUserSchema } = require('../../validations/userValidation');
 const validateRequest = require('../../middleware/validateRequest');
 const protect = require('../../middleware/authMiddleware');
@@ -33,6 +33,6 @@ router.get("/google/callback",
 
 router.get('/me', protect('user'), getUserProfile);
 
-router.get('/categories',protect('user') , getAllCategories);
-router.get('/categories/:categoryId/products',protect('user') , getProductsByCategory);
+// router.get('/categories',protect('user') , getAllCategories);
+// router.get('/categories/:categoryId/products',protect('user') , getProductsByCategory);
 module.exports = router;
