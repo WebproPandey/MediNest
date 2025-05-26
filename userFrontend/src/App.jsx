@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Footer from "./components/Footer";
+import SubCategoryProduct from "./pages/SubCategoryProduct";
+
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/subcategory/:categoryId" element={<SubCategoryProduct/>} />
+        <Route path="/subcategory/search" element={<SubCategoryProduct/>}/>
       </Routes>
       <Footer/>
     </>

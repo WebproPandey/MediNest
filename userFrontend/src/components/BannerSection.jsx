@@ -2,85 +2,74 @@ import React from "react";
 import SwiperSlideBanner from "./SwiperSlide";
 import Category from "./Category";
 import '../App.css'
+import suncreem1 from "../assets/Banner/suncreem1.jpg";
+import suncreem2 from "../assets/Banner/suncreem2.jpg";
+import suncreem3 from "../assets/Banner/suncreem3.jpg";
+import secrum1 from "../assets/Banner/serum1.jpg";
+import secrum2 from "../assets/Banner/serum2.jpg";
+import secrum3 from "../assets/Banner/serum3.jpg";
 
 
 
 const BannerSection = () => {
+
 const bannerData1 = [
   {
     id: 1,
-    heading: "Discounted Medicines",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+1",
-    bgColor: "bg-teal-600",
+    image: suncreem1,
   },
   {
     id: 2,
-    heading: "Health Essentials",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+1+Slide2",
-    bgColor: "bg-orange-500",
+    image: secrum1,
   },
    {
     id: 3,
-    heading: "Health Essentials",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+1+Slide2",
-    bgColor: "bg-orange-200",
+    image: suncreem1,
   },
 ];
 
 const bannerData2 = [
   {
     id: 1,
-    heading: "Top Vitamins",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+2",
-    bgColor: "bg-green-500",
+    image: suncreem2,
   },
    {
     id: 2,
-    heading: "Top Vitamins",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+2",
-    bgColor: "bg-green-300",
+    image: secrum2,
   },
    {
     id: 3,
-    heading: "Top Vitamins",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+2",
-    bgColor: "bg-green-100",
+    image: secrum2,
   },
 ];
 
 const bannerData3 = [
   {
     id: 1,
-    heading: "Skin Care",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+3",
-    bgColor: "bg-purple-500",
+    image: suncreem3,
   },
    {
     id: 2,
-    heading: "Skin Care",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+3",
-    bgColor: "bg-purple-300",
+    image: secrum3,
   },
    {
     id: 3,
-    heading: "Skin Care",
-    image: "https://via.placeholder.com/400x200.png?text=Banner+3",
-    bgColor: "bg-purple-100",
+    image: suncreem3,
   },
 ];
 
 
   return (
     <div className="w-full  min-h-screen ">
-        <div className="swipersection h-[80vh] w-full  flex justify-center gap-2  items-center  py-4 ">
+        <div className="swipersection h-[80vh] w-full  flex justify-center gap-2  items-center  py-4 bg-gray-200 ">
             <div className="leftside w-[60%] h-full ">
                 <SwiperSlideBanner data={bannerData1}/>
             </div>
             <div className="rightside w-[35%] h-full  flex flex-col  gap-2">
-                <div className="toprightside h-[50%] w-full bg-green-300">
+                <div className="toprightside h-[50%] w-full ">
                     <SwiperSlideBanner data={bannerData2}/>
                 </div>
-                <div className="bottomrightside h-[50%] w-full bg-blue-300">
+                <div className="bottomrightside h-[50%] w-full ">
                     <SwiperSlideBanner data={bannerData3}/>
                 </div>
             </div>

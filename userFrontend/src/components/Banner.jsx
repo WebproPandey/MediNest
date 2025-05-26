@@ -1,9 +1,12 @@
 import React from 'react'
+import secrum from "../assets/Banner/vaseline.jpg";
 
 const Banner = () => {
   return (
     <div className='h-[60vh] w-full px-10 py-[10vh] relative'>
-        <div className='h-[80%] absolute  top-0 left-[5%] w-[25vw] bg-gray-200'> </div>
+        <div className='h-[80%] absolute  top-0 left-[5%] w-[25vw]'> 
+          <img src={secrum} className='h-full   w-full object-cover' alt="" />
+        </div>
         <div className='w-full h-full  bg-blue-600 rounded-md flex items-center  justify-end'>
             <div className='w-[60%] h-full flex flex-col  justify-evenly  items-start '>
                 <button className="rounded-full bg-yellow-500 text-white font-medium py-2 px-8 text-sm">Save 35%</button>

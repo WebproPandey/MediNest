@@ -1,15 +1,29 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/action/authActions";
+import { searchProducts } from "../redux/action/userCategoryActions";
 import { FaSearch, FaHeart, FaShoppingCart, FaPhoneAlt, FaBars } from "react-icons/fa";
 import { TopBar } from "./TopBar";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 
 const Navbar = () => {
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+  const [keyword, setKeyword] = useState("");
 
-  // Get first name from full name
-  const firstName = user?.name?.split(" ")[0];
+  const handleSearch = () => {
+    if (keyword.trim()) {
+        dispatch(searchProducts(keyword));
+      navigate(`/subcategory/search?keyword=${encodeURIComponent(keyword)}`);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") handleSearch();
+  };
 
   return (
     <nav className="w-full text-sm font-medium sticky top-[-10%] z-[99]  shadow-lg ">
@@ -30,14 +44,20 @@ const Navbar = () => {
           <select className="border rounded-l px-3 py-2 text-gray-600 bg-gray-100">
             <option>All Categories</option>
           </select>
-          <input
-            type="text"
-            placeholder="Search"
-            className="border-t border-b px-3 py-2 w-full"
-          />
-          <button className="bg-red-500 px-4 py-2 rounded-r text-white hover:bg-red-600">
-            <FaSearch />
-          </button>
+        <input
+          type="text"
+          placeholder="Search"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={handleKeyPress}
+          className="border-t border-b px-3 py-2 w-full"
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-red-500 px-4 py-2 rounded-r text-white hover:bg-red-600"
+        >
+          <FaSearch />
+        </button>
         </div>
 
         {/* Icons and Auth */}

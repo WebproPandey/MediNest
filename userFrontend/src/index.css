@@ -25,7 +25,14 @@
 }
 
 
- .swiper-button-prev, .swiper-button-next {
+
+
+.ShowProduct .swiper-wrapper{
+  padding-top:20px ;
+}
+
+
+ .ShowProduct .swiper-button-prev , .ShowProduct .swiper-button-next {
     position: absolute;
     top: 5% !important;
     z-index: 10;
@@ -34,9 +41,7 @@
     align-items: center;
     justify-content: center;
 }
-.FeedbackSection .swiper  {
-  padding: 10px 50px;
-}
+
 
 
 .FeedbackSection .swiper-button-prev , .swiper-button-next {

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { deleteSubcategory, fetchSubcategories } from "../redux/action/subcategoryActions";
 import SubcategoryForm from "./SubcategoryForm";
 
 const CategoryDetails = () => {
   const dispatch = useDispatch();
+  const navigate  = useNavigate()
   const { id: categoryId } = useParams();
 
   const { subcategories, loading, error } = useSelector(
@@ -26,7 +27,10 @@ const CategoryDetails = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Subcategory Products</h2>
+      <div>
+       <h2 className="text-xl font-bold mb-4">Subcategory Products</h2>
+        <button onClick={() =>  navigate(-1)}> Back  </button>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : subcategories.length === 0 ? (
@@ -41,7 +45,7 @@ const CategoryDetails = () => {
                 className="h-32 object-cover mb-2 rounded"
               />
               <h3 className="font-semibold">{sub.productName}</h3>
-              <p>{sub.description}</p>
+              <p className="text-black  line-clamp-2 ">{sub.description}</p>
               <p>Stock: {sub.stock}</p>
               <p className="font-bold">Price: ₹{sub.price}</p>
               <div>

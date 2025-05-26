@@ -70,3 +70,13 @@ exports.getAllCategories = async () => {
 exports.getProductsByCategory = async (categoryId) => {
   return await Subcategory.find({ category: categoryId });
 };
+
+exports.searchProducts = async (keyword) => {
+  const regex = new RegExp(keyword, "i");
+  return await Subcategory.find({
+    $or: [
+      { productName: { $regex: regex } },
+      { subcategoryName: { $regex: regex } }
+    ]
+  });
+};

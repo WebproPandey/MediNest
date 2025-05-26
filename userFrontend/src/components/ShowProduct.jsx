@@ -65,7 +65,7 @@ const ShowProduct = () => {
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} >
-              <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center h-[60vh] ">
+              <div className="bg-white rounded-md shadow p-4 flex flex-col items-center h-[60vh] ">
                 <div className=" h-full w-[200px] bg-gray-100 rounded-md mb-4">
                   <img
                     src={product.image}
