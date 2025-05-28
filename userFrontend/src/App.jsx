@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import SubCategoryProduct from "./pages/SubCategoryProduct";
+import AddProductSection from "./pages/AddProductSection";
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/subcategory/:categoryId" element={<SubCategoryProduct/>} />
         <Route path="/subcategory/search" element={<SubCategoryProduct/>}/>
+        <Route path="/add-product" element={<AddProductSection/>} />
       </Routes>
       <Footer/>
     </>

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import {
   fetchProductsByCategory,
   searchProducts,
 } from '../redux/action/userCategoryActions';
+import { addToCart, setSelectedProduct } from '../redux/action/userCartActions';
 
 const SkeletonCard = () => (
   <div className="bg-white border rounded-2xl shadow p-4 animate-pulse flex flex-col gap-3">
@@ -25,6 +26,9 @@ const SubCategoryProduct = () => {
   const { categoryId } = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  
 
   const { loading, products, error } = useSelector(
     (state) => state.productsByCategory
@@ -112,6 +116,10 @@ const SubCategoryProduct = () => {
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
                 disabled={product.stock === 0}
+                 onClick={() => {
+                dispatch(setSelectedProduct(product));
+                navigate('/add-product');
+          }}
               >
                 Add to Cart
               </button>

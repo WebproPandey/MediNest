@@ -18,11 +18,13 @@ const Navbar = () => {
     if (keyword.trim()) {
         dispatch(searchProducts(keyword));
       navigate(`/subcategory/search?keyword=${encodeURIComponent(keyword)}`);
+       setKeyword("");
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") handleSearch();
+
   };
 
   return (
@@ -80,10 +82,12 @@ const Navbar = () => {
             </Link>
           )}
           <FaHeart className="text-xl cursor-pointer" />
-          <div className="flex items-center space-x-1">
-            <FaShoppingCart className="text-xl" />
-           
-          </div>
+            <Link to="/add-product" className="relative p-2 ">
+            <div className="flex items-center  relative ">
+             <FaShoppingCart className="text-xl" />
+              <div className="text-white  absolute right-0 top-0  bg-red-500 px-1 leading-none   text-sm rounded-full ">1</div>
+            </div>
+             </Link>
         </div>
       </div>
 
