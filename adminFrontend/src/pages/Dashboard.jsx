@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import AdminNotifications from '../components/AdminNotifications'
 
 
 
@@ -14,7 +15,7 @@ const Dashboard = () => {
           <Link to="allProduct" className="block hover:text-yellow-400">All Product</Link>
           <Link to="/dashboard/categories" className="block p-2 hover:bg-gray-200">Categories</Link>
           {/* <Link to="/dashboard/subcategories" className="block p-2 hover:bg-gray-200">Subcategories</Link> */}
-      
+             <AdminNotifications />
           {/* Add more links as needed */}
         </nav>
       </div>

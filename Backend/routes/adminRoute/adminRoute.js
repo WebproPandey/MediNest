@@ -5,6 +5,7 @@ const validateRequest = require('../../middleware/validateRequest');
 const protect = require('../../middleware/authMiddleware');
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const { fetchConsultations ,acceptConsultation} = require('../../controllers/consultationController/consultationController');
 
 const router = express.Router();
 
@@ -31,5 +32,8 @@ router.post('/register', validateRequest(registerAdminSchema), registerAdmin);
 router.post('/login', validateRequest(loginAdminSchema), loginAdmin);
 router.post('/logout', protect('admin'), logout);
 router.get("/me", protect('admin') ,getAdminProfile);
+router.get("/pending-consultations", fetchConsultations);
+router.patch("/consultation/:id/accept", acceptConsultation);
+
 
 module.exports = router;

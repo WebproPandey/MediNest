@@ -5,6 +5,7 @@ const validateRequest = require('../../middleware/validateRequest');
 const protect = require('../../middleware/authMiddleware');
 const passport = require("passport");
 const generateToken = require("../../utils/generateToken");
+const { submitConsultation } = require('../../controllers/consultationController/consultationController');
 
 
 
@@ -33,6 +34,7 @@ router.get("/google/callback",
 
 router.get('/me', protect('user'), getUserProfile);
 router.get('/products/search', searchProducts);
-// router.get('/categories',protect('user') , getAllCategories);
-// router.get('/categories/:categoryId/products',protect('user') , getProductsByCategory);
+
+router.post("/submit-consultation", submitConsultation);
+
 module.exports = router;

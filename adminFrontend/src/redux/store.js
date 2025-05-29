@@ -3,6 +3,7 @@ import authReducer from './reducer/authReducer'
 import { categoryReducer } from './reducer/categoryReducer'
 import { subcategoryReducer } from './reducer/subcategoryReducer'
 import { allSubcategoriesReducer } from './reducer/allSubcategoriesReducer'
+import adminChatReducer from './reducer/chatReducer'
 
 const store =  configureStore({
    reducer: {
@@ -10,6 +11,7 @@ const store =  configureStore({
     category: categoryReducer,
     subcategories:subcategoryReducer,
     allSubcategories: allSubcategoriesReducer,
+    adminChat: adminChatReducer,
 
   }
 })
