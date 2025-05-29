@@ -81,7 +81,9 @@ const Navbar = () => {
               Login
             </Link>
           )}
-          <FaHeart className="text-xl cursor-pointer" />
+          <Link to="/watchlist">
+           <FaHeart className="text-xl cursor-pointer" />
+          </Link>
             <Link to="/add-product" className="relative p-2 ">
             <div className="flex items-center  relative ">
              <FaShoppingCart className="text-xl" />

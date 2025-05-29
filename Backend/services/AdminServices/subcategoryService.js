@@ -1,6 +1,8 @@
 const Subcategory = require("../../models/subcategoryModel");
+const Product = require("../../models/productModel");
 const { streamUpload } = require("../../config/cloudinary");
 const mongoose = require("mongoose")
+
 
 exports.createSubcategory = async ({ subcategoryName,productName ,price, stock, description, categoryId }, fileBuffer) => {
   let imageUrl = null;
@@ -24,7 +26,6 @@ exports.createSubcategory = async ({ subcategoryName,productName ,price, stock, 
 
 exports.getSubcategoriesByCategory = async (categoryId) => {
   const subcategories = await Subcategory.find({ category: categoryId  }).populate("category");;
-  // console.log("subcategories:",subcategories) 
   return subcategories;
 };
 
@@ -47,3 +48,13 @@ exports.updateSubcategory = async (id, data) => {
 exports.deleteSubcategory = async (id) => {
   await Subcategory.findByIdAndDelete(id);
 };
+
+
+
+exports.getRandomProducts = async (limit) => {
+  return await Subcategory.aggregate([
+    { $sample: { size: limit } }
+  ]);
+};
+
+

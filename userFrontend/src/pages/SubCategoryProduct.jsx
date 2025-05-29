@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import {
   fetchProductsByCategory,
   searchProducts,
-} from '../redux/action/userCategoryActions';
-import { addToCart, setSelectedProduct } from '../redux/action/userCartActions';
+} from "../redux/action/userCategoryActions";
+import { addToCart, addToWatchlist, removeFromWatchlist, setSelectedProduct } from "../redux/action/userCartActions";
+import { FaHeart } from "react-icons/fa";
 
 const SkeletonCard = () => (
   <div className="bg-white border rounded-2xl shadow p-4 animate-pulse flex flex-col gap-3">
@@ -28,15 +29,13 @@ const SubCategoryProduct = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  
-
   const { loading, products, error } = useSelector(
     (state) => state.productsByCategory
   );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const keyword = params.get('keyword');
+    const keyword = params.get("keyword");
 
     if (keyword) {
       dispatch(searchProducts(keyword));
@@ -46,6 +45,17 @@ const SubCategoryProduct = () => {
 
     window.scrollTo(0, 0);
   }, [dispatch, categoryId, location.search]);
+
+  const watchlist = useSelector((state) => state.userWatchlist.watchlist);
+
+  const handleWatchlistToggle = (product) => {
+    const isInWatchlist = watchlist.find((item) => item._id === product._id);
+    if (isInWatchlist) {
+      dispatch(removeFromWatchlist(product._id));
+    } else {
+      dispatch(addToWatchlist(product));
+    }
+  };
 
   return (
     <div className="min-h-screen w-full p-4 bg-gray-50">
@@ -83,6 +93,14 @@ const SubCategoryProduct = () => {
               <h3 className="text-lg font-semibold text-gray-800 mb-1 text-center">
                 {product.productName}
               </h3>
+              <FaHeart
+                className={`text-xl cursor-pointer transition-colors ${
+                  watchlist.find((item) => item._id === product._id)
+                    ? "text-red-500"
+                    : "text-gray-400"
+                }`}
+                onClick={() => handleWatchlistToggle(product)}
+              />
 
               <p className="text-sm text-gray-500 text-center mb-2">
                 {product.subcategoryName}
@@ -99,27 +117,27 @@ const SubCategoryProduct = () => {
                 <span
                   className={`text-xs px-2 py-1 rounded-full ${
                     product.stock > 0
-                      ? 'bg-green-100 text-green-600'
-                      : 'bg-red-100 text-red-600'
+                      ? "bg-green-100 text-green-600"
+                      : "bg-red-100 text-red-600"
                   }`}
                 >
                   {product.stock > 0
                     ? `${product.stock} in stock`
-                    : 'Out of stock'}
+                    : "Out of stock"}
                 </span>
               </div>
 
               <button
                 className={`mt-auto py-2 text-sm font-medium rounded-lg ${
                   product.stock > 0
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
                 disabled={product.stock === 0}
-                 onClick={() => {
-                dispatch(setSelectedProduct(product));
-                navigate('/add-product');
-          }}
+                onClick={() => {
+                  dispatch(setSelectedProduct(product));
+                  navigate("/add-product");
+                }}
               >
                 Add to Cart
               </button>

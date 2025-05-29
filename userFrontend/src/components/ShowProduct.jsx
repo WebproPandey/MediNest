@@ -1,91 +1,124 @@
-import React from "react";
-import { FaLine, FaStar } from "react-icons/fa";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRandomProducts } from "../redux/action/productActions";
+import {
+  addToCart,
+  addToWatchlist,
+  removeFromWatchlist,
+} from "../redux/action/userCartActions";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
+import { FaHeart } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// Sample product data
-const products = [
-  {
-    id: 1,
-    name: "Digital Thermometer",
-    price: "₹299",
-    image: "https://via.placeholder.com/150?text=Thermometer",
-  },
-  {
-    id: 2,
-    name: "Pulse Oximeter",
-    price: "₹799",
-    image: "https://via.placeholder.com/150?text=Oximeter",
-  },
-  {
-    id: 3,
-    name: "Blood Pressure Monitor",
-    price: "₹1499",
-    image: "https://via.placeholder.com/150?text=BP+Monitor",
-  },
-  {
-    id: 4,
-    name: "Digital Thermometer",
-    price: "₹299",
-    image: "https://via.placeholder.com/150?text=Thermometer",
-  },
-  {
-    id: 5,
-    name: "Pulse Oximeter",
-    price: "₹799",
-    image: "https://via.placeholder.com/150?text=Oximeter",
-  },
-  {
-    id: 6,
-    name: "Blood Pressure Monitor",
-    price: "₹1499",
-    image: "https://via.placeholder.com/150?text=BP+Monitor",
-  },
-];
+// ✅ SkeletonCard Component
+const SkeletonCard = () => {
+  return (
+    <div className="bg-white rounded-md shadow p-4 flex flex-col items-center h-[60vh] animate-pulse">
+      <div className="h-[40vh] w-[200px] bg-gray-300 rounded-md mb-4" />
+      <div className="h-5 w-3/4 bg-gray-300 rounded mb-2" />
+      <div className="h-4 w-1/2 bg-gray-300 rounded mb-4" />
+      <div className="h-10 w-full bg-gray-300 rounded" />
+    </div>
+  );
+};
 
 const ShowProduct = () => {
+  const dispatch = useDispatch();
+
+  const { loading, products, error } = useSelector(
+    (state) => state.randomProducts
+  );
+  const watchlist = useSelector((state) => state.userWatchlist.watchlist);
+
+  useEffect(() => {
+    dispatch(fetchRandomProducts());
+  }, [dispatch]);
+
+  const handleWatchlistToggle = (product) => {
+    const isInWatchlist = watchlist.find((item) => item._id === product._id);
+    if (isInWatchlist) {
+      dispatch(removeFromWatchlist(product._id));
+    } else {
+      dispatch(addToWatchlist(product));
+    }
+  };
+
   return (
     <div className="ShowProduct w-full h-full px-8 py-6">
       <div className="w-full h-full bg-gray-100 px-4 py-6 rounded-xl shadow">
-        <div className="text-black font-bold text-2xl flex items-end gap-2 mb-6 ">
-          <div className="w-[0.3vw] h-7 bg-red-500 mx-2" />Today's Hot Deals <p className="text-sm text-end" >Hot Voucher Deal up to 50%++</p>
+        <div className="text-black font-bold text-2xl flex items-end gap-2 mb-6">
+          <div className="w-[0.3vw] h-7 bg-red-500 mx-2" />
+          Today's Hot Deals
+          <p className="text-sm text-end">Hot Voucher Deal up to 50%++</p>
         </div>
 
-        <Swiper
-          slidesPerView={4}
-          spaceBetween={30}
-          centeredSlides={false}
-          pagination={false}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          className="mySwiper"
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} >
-              <div className="bg-white rounded-md shadow p-4 flex flex-col items-center h-[60vh] ">
-                <div className=" h-full w-[200px] bg-gray-100 rounded-md mb-4">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover rounded-md"
-                  />
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array(4)
+              .fill(0)
+              .map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
+          </div>
+        ) : error ? (
+          <p className="text-red-500">Error: {error}</p>
+        ) : (
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={30}
+            centeredSlides={false}
+            pagination={false}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {products?.map((product) => (
+              <SwiperSlide key={product._id}>
+                <div className="bg-white rounded-md shadow p-4 flex flex-col items-center h-[60vh] relative">
+                  {/* ❤️ Watchlist Toggle Icon */}
+                  <div className="absolute top-2 right-2">
+                    <FaHeart
+                      className={`cursor-pointer text-xl transition ${
+                        watchlist.find((item) => item._id === product._id)
+                          ? "text-red-500"
+                          : "text-gray-400"
+                      }`}
+                      onClick={() => handleWatchlistToggle(product)}
+                    />
+                  </div>
+
+                  {/* Product Image */}
+                  <div className="h-[35vh] w-[200px] bg-gray-100 rounded-md mb-4">
+                    <img
+                      src={product.image}
+                      alt={product.productName}
+                      className="w-full h-full object-contain rounded-md"
+                    />
+                  </div>
+
+                  {/* Product Info */}
+                  <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                    {product.productName}
+                  </h2>
+                  <p className="text-green-600 font-bold mb-2">
+                    ₹{product.price}
+                  </p>
+
+                  {/* 🛒 Add to Cart */}
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                    onClick={() => dispatch(addToCart(product))}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
-                <h2 className="text-lg font-semibold text-gray-800 mb-1">
-                  {product.name}
-                </h2>
-                <p className="text-green-600 font-bold mb-2">
-                  {product.price}
-                </p>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                  Add to Cart
-                </button>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </div>
   );
