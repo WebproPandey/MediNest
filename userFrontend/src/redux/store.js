@@ -5,7 +5,6 @@ import { productsByCategoryReducer } from "./reducer/productsByCategoryReducer";
 import userCartReducer from "./reducer/userCartReducer";
 import { userWatchlistReducer } from "./reducer/userWatchlistReducer";
 import { randomProductsReducer } from "./reducer/productReducer";
-import chatReducer from "./reducer/chatReducer";
 
 const store = configureStore({
     reducer :{
@@ -15,7 +14,6 @@ const store = configureStore({
      userCart: userCartReducer,
      userWatchlist:userWatchlistReducer,
      randomProducts:randomProductsReducer,
-     chat: chatReducer,
      
     }
 })

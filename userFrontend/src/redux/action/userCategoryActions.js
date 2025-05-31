@@ -33,6 +33,7 @@ export const fetchUserCategories = () => async (dispatch) => {
 
 
 export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
+    if (!categoryId || categoryId === "undefined") return;
   try {
     dispatch({ type: PRODUCTS_BY_CATEGORY_REQUEST });
 
@@ -40,8 +41,12 @@ export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
       withCredentials: true,
     });
 
+    // console.log("data :",data)
+
+
     dispatch({ type: PRODUCTS_BY_CATEGORY_SUCCESS, payload: data.data });
   } catch (error) {
+    console.log(error)
     dispatch({
       type: PRODUCTS_BY_CATEGORY_FAIL,
       payload:

@@ -14,9 +14,7 @@ const Dashboard = () => {
         <nav className="space-y-2">
           <Link to="allProduct" className="block hover:text-yellow-400">All Product</Link>
           <Link to="/dashboard/categories" className="block p-2 hover:bg-gray-200">Categories</Link>
-          {/* <Link to="/dashboard/subcategories" className="block p-2 hover:bg-gray-200">Subcategories</Link> */}
-             <AdminNotifications />
-          {/* Add more links as needed */}
+          <AdminNotifications />
         </nav>
       </div>
 

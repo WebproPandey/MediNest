@@ -5,6 +5,7 @@ import {
   addToCart,
   addToWatchlist,
   removeFromWatchlist,
+  setSelectedProduct,
 } from "../redux/action/userCartActions";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
@@ -12,6 +13,7 @@ import { FaHeart } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { useNavigate, useParams } from "react-router-dom";
 
 // ✅ SkeletonCard Component
 const SkeletonCard = () => {
@@ -27,10 +29,13 @@ const SkeletonCard = () => {
 
 const ShowProduct = () => {
   const dispatch = useDispatch();
+   const { categoryId } = useParams();
+    const navigate = useNavigate();
 
   const { loading, products, error } = useSelector(
     (state) => state.randomProducts
   );
+
   const watchlist = useSelector((state) => state.userWatchlist.watchlist);
 
   useEffect(() => {
@@ -110,7 +115,15 @@ const ShowProduct = () => {
                   {/* 🛒 Add to Cart */}
                   <button
                     className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                    onClick={() => dispatch(addToCart(product))}
+                    onClick={() =>{
+                      dispatch(setSelectedProduct(product))
+                        navigate(`/add-product/${product.category}`);
+
+                    } 
+                      
+
+                    }
+                    
                   >
                     Add to Cart
                   </button>

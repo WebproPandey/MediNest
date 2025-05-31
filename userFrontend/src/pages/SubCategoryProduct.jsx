@@ -25,9 +25,9 @@ const SkeletonCard = () => (
 
 const SubCategoryProduct = () => {
   const { categoryId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
 
   const { loading, products, error } = useSelector(
     (state) => state.productsByCategory
@@ -36,10 +36,9 @@ const SubCategoryProduct = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const keyword = params.get("keyword");
-
     if (keyword) {
       dispatch(searchProducts(keyword));
-    } else if (categoryId) {
+    }  else if (categoryId && categoryId !== "search" && categoryId !== "undefined") {
       dispatch(fetchProductsByCategory(categoryId));
     }
 
@@ -136,7 +135,7 @@ const SubCategoryProduct = () => {
                 disabled={product.stock === 0}
                 onClick={() => {
                   dispatch(setSelectedProduct(product));
-                  navigate("/add-product");
+                  navigate(`/add-product/${categoryId}`);
                 }}
               >
                 Add to Cart

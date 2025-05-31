@@ -7,7 +7,6 @@ export const fetchRandomProducts = () => async (dispatch) => {
     dispatch({ type: FETCH_RANDOM_PRODUCTS_REQUEST });
 
     const { data } = await api.get("/products/random");
-    console.log("data:",data)
     dispatch({
       type: FETCH_RANDOM_PRODUCTS_SUCCESS,
       payload: data.data,

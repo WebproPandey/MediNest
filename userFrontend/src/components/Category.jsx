@@ -44,7 +44,7 @@ const Category = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
-          {categories?.map((cat) => (
+          {categories?.slice(0, 6).map((cat) => (
             <div
               key={cat._id}
               onClick={() => handleCategoryClick(cat._id)}
