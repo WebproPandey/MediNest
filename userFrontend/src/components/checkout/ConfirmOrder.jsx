@@ -1,45 +1,67 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { clearCart } from "../../redux/action/userCartActions";
 import { useNavigate } from "react-router-dom";
+import { createOrder, verifyPayment } from "../../redux/action/paymentAction";
 
 const ConfirmOrder = ({ onBack }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const cartItems = useSelector((state) => state.userCart.cart);
+  const { selectedProduct, cart } = useSelector((state) => state.userCart);
+  console.log("product:",selectedProduct)
   const user = useSelector((state) => state.user.user);
+  const address = useSelector((state) => state.addresses.addresses[0]);
 
-  const address = JSON.parse(localStorage.getItem("checkoutAddress"));
-  const payment = JSON.parse(localStorage.getItem("checkoutPayment"));
+  // Handle single product or full cart
+  const cartItems = selectedProduct
+    ? [{ ...selectedProduct, quantity: 1 }]
+    : cart || [];
 
-  const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
-  const placeOrderHandler = () => {
+  const handleBuyNow = async () => {
     const orderData = {
-      userId: user?._id,
       cartItems,
       address,
-      paymentMethod: payment.method,
+      paymentMethod: "Online",
       totalAmount,
     };
 
-    console.log("ORDER PLACED ✅", orderData);
+    const orderResponse = await dispatch(createOrder(orderData));
+    if (orderResponse?.razorpayOrder) {
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: orderResponse.razorpayOrder.amount,
+        currency: orderResponse.razorpayOrder.currency,
+        name: "MediNest",
+        description: "Test Transaction",
+        order_id: orderResponse.razorpayOrder.id,
+        handler: async (response) => {
+          const paymentData = {
+            razorpayOrderId: response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+          };
+          await dispatch(verifyPayment(paymentData));
+          alert("Payment Successful!");
+          navigate("/order-success");
+        },
+        prefill: {
+          name: user?.name || "Guest",
+          email: user?.email || "guest@example.com",
+          contact: user?.phone || "9999999999",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
 
-    dispatch(clearCart()); // Empty the cart
-    localStorage.removeItem("checkoutAddress");
-    localStorage.removeItem("checkoutPayment");
-
-    navigate("/order-success"); // redirect to order success page
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    }
   };
-
-  if (!address || !payment || cartItems.length === 0) {
-    return (
-      <div className="text-red-500 font-semibold text-center p-4">
-        Please complete all steps before confirming your order.
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -47,24 +69,35 @@ const ConfirmOrder = ({ onBack }) => {
 
       <div className="bg-white p-4 rounded shadow">
         <h4 className="font-semibold mb-2">Shipping Address</h4>
-        <p>{address.fullName}</p>
-        <p>{address.addressLine}</p>
-        <p>{address.city}, {address.pincode}</p>
-        <p>{address.country}</p>
-      </div>
-
-      <div className="bg-white p-4 rounded shadow">
-        <h4 className="font-semibold mb-2">Payment Method</h4>
-        <p>{payment.method === "cod" ? "Cash on Delivery" : payment.method}</p>
+        <p>{address?.fullName}</p>
+        <p>{address?.house}</p>
+        <p>{address?.city}, {address?.pincode}</p>
+        <p>{address?.state}, {address?.country}</p>
       </div>
 
       <div className="bg-white p-4 rounded shadow">
         <h4 className="font-semibold mb-2">Cart Items</h4>
         {cartItems.map((item) => (
-          <div key={item._id} className="flex justify-between border-b py-2">
-            <span>{item.productName} (x{item.quantity})</span>
-            <span>₹{item.price * item.quantity}</span>
+            <div
+            key={item._id}
+            className="flex items-center justify-between border-b py-3"
+          >
+            <div className="flex items-center gap-4">
+              <img
+                src={item.image}
+                alt={item.productName}
+                className="w-16 h-16 rounded object-cover border"
+              />
+              <div>
+                <p className="font-medium">{item.productName}</p>
+                <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+              </div>
+            </div>
+            <div className="text-right">
+              ₹{item.price * item.quantity}
+            </div>
           </div>
+
         ))}
         <div className="flex justify-between font-bold pt-2">
           <span>Total:</span>
@@ -81,7 +114,7 @@ const ConfirmOrder = ({ onBack }) => {
           Back
         </button>
         <button
-          onClick={placeOrderHandler}
+          onClick={handleBuyNow}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
           Place Order

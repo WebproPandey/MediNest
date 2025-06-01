@@ -3,6 +3,8 @@ import { ADD_TO_CART, SET_SELECTED_PRODUCT } from "../actionType/userActionType"
 const initialState = {
   selectedProduct: null,
   cart: [],
+  watchlist: [],
+  totalAmount: 0,
 };
 
 const userCartReducer = (state = initialState, action) => {

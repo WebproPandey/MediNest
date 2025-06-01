@@ -10,12 +10,14 @@ const protect = (role) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // console.log("Decoded token:", decoded); // Log decoded token for debugging
 
       if (role && decoded.role !== role) {
         return res.status(403).json({ message: "Access denied" });
       }
 
-      req.user = decoded; // Ensure req.user is set
+      req.user = { id: decoded.id, role: decoded.role }; 
+      // Ensure req.user.id is set
       next();
     } catch (err) {
       console.log("Invalid token:", err); // Log token error

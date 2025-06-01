@@ -8,7 +8,7 @@ import SubCategoryProduct from "./pages/SubCategoryProduct";
 import AddProductSection from "./pages/AddProductSection";
 import {Watchlist} from "./components/Watchlist";
 import AddressStep from "./components/checkout/AddressStep";
-import PaymentStep from "./components/checkout/PaymentStep";
+// import PaymentStep from "./components/checkout/PaymentStep";
 import ConfirmOrder from "./components/checkout/ConfirmOrder";
 import OrderSuccess from "./components/checkout/OrderSuccess";
 import CheckoutFlow from "./components/checkout/CheckoutFlow";
@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/watchlist" element={<Watchlist/>} />
         <Route path="/checkout" element={<CheckoutFlow/>} />
         <Route path="/checkout/address" element={<AddressStep/>} />
-        <Route path="/checkout/payment" element={<PaymentStep />} />
+        {/* <Route path="/checkout/payment" element={<PaymentStep />} /> */}
         <Route path="/checkout/confirm" element={<ConfirmOrder />} />
         <Route path="/order-success" element={<OrderSuccess />} />
 

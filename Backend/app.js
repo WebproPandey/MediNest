@@ -62,7 +62,9 @@ const productRoutes = require("./routes/adminRoute/productRoutes");
 
 const userRoute = require("./routes/userRoute/usersRoute");
 const useCategory = require("./routes/userRoute/categoriesRoute");
+const addressRoute = require("./routes/userRoute/addressRoute");
 const buyNowRoute = require("./routes/userRoute/orderRotue");
+
 
 
 app.use("/api/admin", adminRoute);
@@ -74,6 +76,7 @@ app.use("/api/products", productRoutes);
 
 app.use("/api/user", userRoute);
 app.use("/api", useCategory);
+app.use("/api/address", addressRoute);
 app.use("/api/buy-now", buyNowRoute);
 
 module.exports = app;

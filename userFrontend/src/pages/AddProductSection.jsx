@@ -21,8 +21,11 @@ import "swiper/css/navigation";
 const AddProductSection = () => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const selectedProduct = useSelector((state) => state.userCart.selectedProduct);
+  const selectedProduct = useSelector(
+    (state) => state.userCart.selectedProduct
+  );
   const watchlist = useSelector((state) => state.userWatchlist.watchlist);
+ 
 
   const { categoryId } = useParams();
   const dispatch = useDispatch();
@@ -62,9 +65,9 @@ const AddProductSection = () => {
           alert("Payment Successful!");
         },
         prefill: {
-          name: "Your Name",
-          email: "your-email@example.com",
-          contact: "9999999999",
+          name: user?.name || "Guest",
+          email: user?.email || "guest@example.com",
+          contact: user?.phone || "9999999999",
         },
         theme: {
           color: "#3399cc",
@@ -141,10 +144,11 @@ const AddProductSection = () => {
                 Added To Cart
               </button>
               <button
-                onClick={handleBuyNow}
+                  onClick={() => navigate("/checkout")}
+                // onClick={handleBuyNow}
                 className="px-6 py-2 bg-orange-100 text-orange-500 rounded-lg"
               >
-                Buy Now
+                checkout
               </button>
             </div>
           </div>
