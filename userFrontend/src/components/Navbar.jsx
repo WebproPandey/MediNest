@@ -106,7 +106,7 @@ const Navbar = () => {
           <Link to="#">FEATURES</Link>
           <Link to="#">SHOP</Link>
           <Link to="#">PAGES</Link>
-          <Link to="#">BLOG</Link>
+          <Link to="/my-orders">MyOrder</Link>
         </div>
 
         <div className="flex items-center space-x-2 text-red-500 font-semibold">

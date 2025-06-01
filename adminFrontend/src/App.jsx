@@ -6,11 +6,12 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { loadAdmin } from './redux/action/authActions'
 import AdminRegister from './pages/AdminRegister'
 import CategorySubcategoryManager from './components/CategorySubcategoryManager'
 import CategoryList from './components/CategoryList'
 import CategoryDetails from './components/CategoryDetails'
+import AdminOrders from './components/AdminOrders'
+import { getAdminProfile } from './redux/action/authActions'
 
 const App = () => {
 
@@ -18,7 +19,7 @@ const App = () => {
    const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadAdmin()); 
+    dispatch(getAdminProfile()); 
   }, []);
 
 
@@ -31,6 +32,8 @@ const App = () => {
         <Route path="allProduct" element={<CategorySubcategoryManager/>} />
         <Route path="categories" element={<CategoryList/>} />
         <Route path="subcategories/:id" element={<CategoryDetails/>} />
+        <Route path="orders" element={<AdminOrders/>} />
+
       
       </Route>
     </Routes>

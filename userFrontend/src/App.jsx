@@ -12,6 +12,7 @@ import AddressStep from "./components/checkout/AddressStep";
 import ConfirmOrder from "./components/checkout/ConfirmOrder";
 import OrderSuccess from "./components/checkout/OrderSuccess";
 import CheckoutFlow from "./components/checkout/CheckoutFlow";
+import UserOrders from "./pages/UserOrders";
 
 
 const App = () => {
@@ -31,6 +32,8 @@ const App = () => {
         {/* <Route path="/checkout/payment" element={<PaymentStep />} /> */}
         <Route path="/checkout/confirm" element={<ConfirmOrder />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/my-orders" element={<UserOrders/>} /> {/* User Orders Route */}
+
 
       </Routes>
       <Footer/>

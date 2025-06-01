@@ -10,12 +10,16 @@ const ConfirmOrder = ({ onBack }) => {
   const { selectedProduct, cart } = useSelector((state) => state.userCart);
   console.log("product:",selectedProduct)
   const user = useSelector((state) => state.user.user);
+  const { watchlist } = useSelector((state) => state.userWatchlist); // Fetch watchlist data
+   console.log("watchlist:" ,watchlist)
   const address = useSelector((state) => state.addresses.addresses[0]);
 
   // Handle single product or full cart
-  const cartItems = selectedProduct
-    ? [{ ...selectedProduct, quantity: 1 }]
-    : cart || [];
+ const cartItems = selectedProduct
+    ? [{ ...selectedProduct, quantity: 1 }] // Single product from userCart
+    : cart.length > 0
+    ? cart // Full cart from userCart
+    : watchlist.map((item) => ({ ...item, quantity: item.quantity || 1 })); // Products from watchlist
 
   const totalAmount = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,

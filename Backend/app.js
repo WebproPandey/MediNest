@@ -59,6 +59,7 @@ const consultationsRoute = require("./routes/consultantRoute/consultationsRoute"
 const categoryRoutes = require("./routes/adminRoute/categoryRoutes");
 const subcategoryRoutes = require("./routes/adminRoute/subcategoryRoutes");
 const productRoutes = require("./routes/adminRoute/productRoutes");
+const orderRoute = require("./routes/adminRoute/orderRoute");
 
 const userRoute = require("./routes/userRoute/usersRoute");
 const useCategory = require("./routes/userRoute/categoriesRoute");
@@ -73,6 +74,7 @@ app.use("/api/consultations", consultationsRoute);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/subcategories", subcategoryRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/admin", orderRoute);
 
 app.use("/api/user", userRoute);
 app.use("/api", useCategory);

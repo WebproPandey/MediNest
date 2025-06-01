@@ -17,6 +17,7 @@ const protect = (role) => {
       }
 
       req.user = { id: decoded.id, role: decoded.role }; 
+      
       // Ensure req.user.id is set
       next();
     } catch (err) {

@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeFromWatchlist,
-  updateWatchlistQuantity,
-  updateTotalAmount,
-} from "../redux/action/userCartActions";
+import {removeFromWatchlist,updateWatchlistQuantity,updateTotalAmount,} from "../redux/action/userCartActions";
 import { FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export const Watchlist = () => {
   const dispatch = useDispatch();
+  const  navigate  =  useNavigate()
   const { watchlist, totalAmount } = useSelector(
     (state) => state.userWatchlist
   );
@@ -112,10 +110,10 @@ export const Watchlist = () => {
                 <span>₹{totalAmount.toFixed(2)}</span>
               </div>
 
-              <div className="flex justify-between mb-2">
+              {/* <div className="flex justify-between mb-2">
                 <span>GST (18%)</span>
                 <span>₹{gst.toFixed(2)}</span>
-              </div>
+              </div> */}
 
               <div className="flex justify-between mb-2">
                 <span>Delivery Charges</span>
@@ -129,7 +127,9 @@ export const Watchlist = () => {
                  <span>Total Amount</span>
                  <span>₹{finalTotal.toFixed(2)}</span>
                 </div>
-                <button className="px-6 bg-orange-100 text-orange-500 rounded-lg">
+                <button
+                 onClick={() => navigate("/checkout")}
+                className="px-6 bg-orange-100 text-orange-500 rounded-lg">
                   Buy Now
                  </button>
               </div>
