@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createOrder, verifyPayment } from "../../redux/action/paymentAction";
@@ -7,19 +7,16 @@ const ConfirmOrder = ({ onBack }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { selectedProduct, cart } = useSelector((state) => state.userCart);
-  console.log("product:",selectedProduct)
   const user = useSelector((state) => state.user.user);
-  const { watchlist } = useSelector((state) => state.userWatchlist); // Fetch watchlist data
-   console.log("watchlist:" ,watchlist)
+  const { watchlist } = useSelector((state) => state.userWatchlist);
   const address = useSelector((state) => state.addresses.addresses[0]);
 
-  // Handle single product or full cart
- const cartItems = selectedProduct
-    ? [{ ...selectedProduct, quantity: 1 }] // Single product from userCart
-    : cart.length > 0
-    ? cart // Full cart from userCart
-    : watchlist.map((item) => ({ ...item, quantity: item.quantity || 1 })); // Products from watchlist
+  const [paymentMethod, setPaymentMethod] = useState("Online"); // Default payment method
+
+  const cartItems = watchlist.map((item) => ({
+    ...item,
+    quantity: item.quantity || 1,
+  }));
 
   const totalAmount = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -30,40 +27,46 @@ const ConfirmOrder = ({ onBack }) => {
     const orderData = {
       cartItems,
       address,
-      paymentMethod: "Online",
+      paymentMethod,
       totalAmount,
     };
 
-    const orderResponse = await dispatch(createOrder(orderData));
-    if (orderResponse?.razorpayOrder) {
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: orderResponse.razorpayOrder.amount,
-        currency: orderResponse.razorpayOrder.currency,
-        name: "MediNest",
-        description: "Test Transaction",
-        order_id: orderResponse.razorpayOrder.id,
-        handler: async (response) => {
-          const paymentData = {
-            razorpayOrderId: response.razorpay_order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-          };
-          await dispatch(verifyPayment(paymentData));
-          alert("Payment Successful!");
-          navigate("/order-success");
-        },
-        prefill: {
-          name: user?.name || "Guest",
-          email: user?.email || "guest@example.com",
-          contact: user?.phone || "9999999999",
-        },
-        theme: {
-          color: "#3399cc",
-        },
-      };
+    if (paymentMethod === "Online") {
+      const orderResponse = await dispatch(createOrder(orderData));
+      if (orderResponse?.razorpayOrder) {
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+          amount: orderResponse.razorpayOrder.amount,
+          currency: orderResponse.razorpayOrder.currency,
+          name: "MediNest",
+          description: "Test Transaction",
+          order_id: orderResponse.razorpayOrder.id,
+          handler: async (response) => {
+            const paymentData = {
+              razorpayOrderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+            };
+            await dispatch(verifyPayment(paymentData));
+            alert("Payment Successful!");
+            navigate("/order-success");
+          },
+          prefill: {
+            name: user?.name || "Guest",
+            email: user?.email || "guest@example.com",
+            contact: user?.phone || "9999999999",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
 
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+      }
+    } else if (paymentMethod === "COD") {
+      await dispatch(createOrder(orderData)); // Create order without Razorpay
+      alert("Order placed successfully! Payment will be collected on delivery.");
+      navigate("/order-success");
     }
   };
 
@@ -75,14 +78,18 @@ const ConfirmOrder = ({ onBack }) => {
         <h4 className="font-semibold mb-2">Shipping Address</h4>
         <p>{address?.fullName}</p>
         <p>{address?.house}</p>
-        <p>{address?.city}, {address?.pincode}</p>
-        <p>{address?.state}, {address?.country}</p>
+        <p>
+          {address?.city}, {address?.pincode}
+        </p>
+        <p>
+          {address?.state}, {address?.country}
+        </p>
       </div>
 
       <div className="bg-white p-4 rounded shadow">
         <h4 className="font-semibold mb-2">Cart Items</h4>
         {cartItems.map((item) => (
-            <div
+          <div
             key={item._id}
             className="flex items-center justify-between border-b py-3"
           >
@@ -97,15 +104,38 @@ const ConfirmOrder = ({ onBack }) => {
                 <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
               </div>
             </div>
-            <div className="text-right">
-              ₹{item.price * item.quantity}
-            </div>
+            <div className="text-right">₹{item.price * item.quantity}</div>
           </div>
-
         ))}
         <div className="flex justify-between font-bold pt-2">
           <span>Total:</span>
           <span>₹{totalAmount}</span>
+        </div>
+      </div>
+
+      <div className="bg-white p-4 rounded shadow">
+        <h4 className="font-semibold mb-2">Payment Method</h4>
+        <div className="flex gap-4">
+          <button
+            className={`px-4 py-2 rounded ${
+              paymentMethod === "Online"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-300 text-gray-700"
+            }`}
+            onClick={() => setPaymentMethod("Online")}
+          >
+            Online Payment
+          </button>
+          <button
+            className={`px-4 py-2 rounded ${
+              paymentMethod === "COD"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-300 text-gray-700"
+            }`}
+            onClick={() => setPaymentMethod("COD")}
+          >
+            Cash on Delivery
+          </button>
         </div>
       </div>
 

@@ -177,7 +177,7 @@ const handleAddToCart = (product) => {
                   disabled={product.stock === 0}
                   onClick={() => handleAddToCart(product)}
                 >
-                  Add to Cart
+                  View Cart
                 </button>
               </div>
             ))

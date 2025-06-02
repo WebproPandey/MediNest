@@ -138,7 +138,7 @@ const SubCategoryProduct = () => {
                   navigate(`/add-product/${categoryId}`);
                 }}
               >
-                Add to Cart
+                view Cart
               </button>
             </div>
           ))}

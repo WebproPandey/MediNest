@@ -125,7 +125,7 @@ const ShowProduct = () => {
                     }
                     
                   >
-                    Add to Cart
+                    View Cart
                   </button>
                 </div>
               </SwiperSlide>

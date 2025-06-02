@@ -13,6 +13,7 @@ export const createOrder = (orderData) => async (dispatch) => {
     dispatch({ type: CREATE_ORDER_REQUEST });
     const { data } = await api.post("/buy-now/create-order", orderData);
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
+    console.log("createorder:" ,data)
     return data;
   } catch (error) {
     console.log("error:",error)

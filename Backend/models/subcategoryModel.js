@@ -7,7 +7,9 @@ const subcategorySchema = new mongoose.Schema({
   stock: { type: Number, required: true },
   description: { type: String, required: true },
   image: { type: String },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true }
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+  quantity: { type: Number, default: 1 }, 
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Subcategory', subcategorySchema);

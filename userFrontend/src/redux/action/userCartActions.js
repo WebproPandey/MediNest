@@ -6,14 +6,39 @@ export const setSelectedProduct = (product) => ({
   payload: product,
 });
 
-export const addToCart = (product, quantity = 1) => (dispatch, getState) => {
-  const newItem = { ...product, quantity };
+
+
+export const addToCart = (product ,quantity) => (dispatch, getState) => {
+try{  
+  const totalPrice = product.price * product.quantity;
+  
+  const newItem = {
+    ...product,
+    quantity,
+   totalPrice,
+  };
+  
+  console.log("totalPrice",totalPrice)
+  console.log("newItem",totalPrice ,newItem)
 
   dispatch({
-    type:ADD_TO_CART,
+    type: ADD_TO_CART,
     payload: newItem,
-  });
+  })
+   dispatch({
+      type: SET_SELECTED_PRODUCT,
+      payload: newItem, // Update selectedProduct with new quantity
+    });
+}catch(err){
+  console.log("adderro" ,err)
+}
 };
+
+
+export const removeFromCart = (productId) => ({
+  type: "REMOVE_FROM_CART",
+  payload: productId,
+});
 
 export const addToWatchlist = (product) => ({
   type: ADD_TO_WATCHLIST,

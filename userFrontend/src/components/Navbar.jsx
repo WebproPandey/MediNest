@@ -81,10 +81,8 @@ const Navbar = () => {
               Login
             </Link>
           )}
-          <Link to="/watchlist">
-           <FaHeart className="text-xl cursor-pointer" />
-          </Link>
-            <Link to={`/add-product/:categoryId`} className="relative p-2 ">
+       
+            <Link to="/watchlist" className="relative p-2 ">
             <div className="flex items-center  relative ">
              <FaShoppingCart className="text-xl" />
               <div className="text-white  absolute right-0 top-0  bg-red-500 px-1 leading-none   text-sm rounded-full ">1</div>
@@ -105,7 +103,6 @@ const Navbar = () => {
           <Link to="#">LAYOUTS</Link>
           <Link to="#">FEATURES</Link>
           <Link to="#">SHOP</Link>
-          <Link to="#">PAGES</Link>
           <Link to="/my-orders">MyOrder</Link>
         </div>
 
