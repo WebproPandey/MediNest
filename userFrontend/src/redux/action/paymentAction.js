@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import api from "../../api/api";
 import {
   CREATE_ORDER_REQUEST,
@@ -13,7 +14,7 @@ export const createOrder = (orderData) => async (dispatch) => {
     dispatch({ type: CREATE_ORDER_REQUEST });
     const { data } = await api.post("/buy-now/create-order", orderData);
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
-    console.log("createorder:" ,data)
+    toast.success("Create order successful"); 
     return data;
   } catch (error) {
     console.log("error:",error)
@@ -21,6 +22,8 @@ export const createOrder = (orderData) => async (dispatch) => {
       type: CREATE_ORDER_FAIL,
       payload: error.response?.data?.message || "Failed to create order",
     });
+    toast.error("Order Not Create");
+    
   }
 };
 
@@ -29,10 +32,12 @@ export const verifyPayment = (paymentData) => async (dispatch) => {
     dispatch({ type: VERIFY_PAYMENT_REQUEST });
     const { data } = await api.post("/buy-now/verify-payment", paymentData);
     dispatch({ type: VERIFY_PAYMENT_SUCCESS, payload: data });
+      toast.success("Payment successful");
   } catch (error) {
     dispatch({
       type: VERIFY_PAYMENT_FAIL,
       payload: error.response?.data?.message || "Failed to verify payment",
     });
+    toast.error("Payment Failed");
   }
 };

@@ -29,8 +29,8 @@ const SkeletonCard = () => {
 
 const ShowProduct = () => {
   const dispatch = useDispatch();
-   const { categoryId } = useParams();
-    const navigate = useNavigate();
+  const { categoryId } = useParams();
+  const navigate = useNavigate();
 
   const { loading, products, error } = useSelector(
     (state) => state.randomProducts
@@ -52,16 +52,18 @@ const ShowProduct = () => {
   };
 
   return (
-    <div className="ShowProduct w-full h-full px-8 py-6">
-      <div className="w-full h-full bg-gray-100 px-4 py-6 rounded-xl shadow">
-        <div className="text-black font-bold text-2xl flex items-end gap-2 mb-6">
-          <div className="w-[0.3vw] h-7 bg-red-500 mx-2" />
+    <div className="ShowProduct w-full h-full px-2 md:px-8 py-6">
+      <div className="w-full h-full bg-gray-100 md:px-4 py-6 rounded-xl shadow">
+        <div className="text-black font-bold text-xl md:text-2xl flex items-end   gap-2 mb-6 ">
+          <div className="w-[0.3vw] h-7 bg-red-500 mx-1 md:mx-2  " />
           Today's Hot Deals
-          <p className="text-sm text-end">Hot Voucher Deal up to 50%++</p>
+          <p className="text-[2vw] md:text-sm text-end">
+            Hot Voucher Deal up to 50%++
+          </p>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array(4)
               .fill(0)
               .map((_, index) => (
@@ -79,10 +81,24 @@ const ShowProduct = () => {
             navigation={true}
             modules={[Pagination, Navigation]}
             className="mySwiper"
+            breakpoints={{
+              0: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
+            }}
           >
             {products?.map((product) => (
               <SwiperSlide key={product._id}>
-                <div className="bg-white rounded-md shadow p-4 flex flex-col items-center h-[60vh] relative">
+                <div className="bg-white rounded-md shadow p-3 flex flex-col items-center h-[55vh] md:h-[60vh] relative">
                   {/* ❤️ Watchlist Toggle Icon */}
                   <div className="absolute top-2 right-2">
                     <FaHeart
@@ -95,8 +111,8 @@ const ShowProduct = () => {
                     />
                   </div>
 
-                  {/* Product Image */}
-                  <div className="h-[35vh] w-[200px] bg-gray-100 rounded-md mb-4">
+                  {/* Product Image - Responsive */}
+                  <div className="h-[25vh] w-[120px] md:h-[35vh] md:w-[200px] bg-gray-100 rounded-md mb-4">
                     <img
                       src={product.image}
                       alt={product.productName}
@@ -105,7 +121,7 @@ const ShowProduct = () => {
                   </div>
 
                   {/* Product Info */}
-                  <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                  <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-1 text-center">
                     {product.productName}
                   </h2>
                   <p className="text-green-600 font-bold mb-2">
@@ -114,16 +130,11 @@ const ShowProduct = () => {
 
                   {/* 🛒 Add to Cart */}
                   <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                    onClick={() =>{
-                      dispatch(setSelectedProduct(product))
-                        navigate(`/add-product/${product.category}`);
-
-                    } 
-                      
-
-                    }
-                    
+                    className="bg-blue-600 text-white text-sm md:text-base px-3 md:px-4 py-2 rounded-md hover:bg-blue-700"
+                    onClick={() => {
+                      dispatch(setSelectedProduct(product));
+                      navigate(`/add-product/${product.category}`);
+                    }}
                   >
                     View Cart
                   </button>

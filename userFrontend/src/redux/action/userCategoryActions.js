@@ -41,12 +41,10 @@ export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
       withCredentials: true,
     });
 
-    // console.log("data :",data)
 
 
     dispatch({ type: PRODUCTS_BY_CATEGORY_SUCCESS, payload: data.data });
   } catch (error) {
-    console.log(error)
     dispatch({
       type: PRODUCTS_BY_CATEGORY_FAIL,
       payload:

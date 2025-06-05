@@ -26,7 +26,7 @@ const AddProductSection = () => {
   const selectedProduct = useSelector(
     (state) => state.userCart.selectedProduct
   );
- console.log("selectedProduct",selectedProduct)
+//  console.log("selectedProduct",selectedProduct)
 
   const watchlist = useSelector((state) => state.userWatchlist.watchlist);
 
@@ -46,7 +46,7 @@ const AddProductSection = () => {
 
  const handleAddToCart = () => {
   if (selectedProduct) {
-    dispatch(addToCart({ ...selectedProduct, quantity })); // Pass updated quantity
+    dispatch(addToCart({ ...selectedProduct, quantity })); 
   }
 };
 
@@ -54,7 +54,7 @@ useEffect(() => {
   if (selectedProduct) {
     const existing = cart.find((item) => item._id === selectedProduct._id);
     if (existing) {
-      setQuantity(existing.quantity); // Sync local quantity with Redux state
+      setQuantity(existing.quantity); 
     } else {
       setQuantity(1);
     }
@@ -67,8 +67,8 @@ useEffect(() => {
       {/* Product Detail */}
       {selectedProduct ? (
         <div className="flex flex-col lg:flex-row gap-10 items-center justify-center mb-10">
-          <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-xl">
-            <div className="relative overflow-hidden rounded-2xl h-[400px] w-full">
+          <div className="bg-white p-4 md:p-6 rounded-2xl shadow-lg w-full max-w-xl">
+            <div className="relative overflow-hidden rounded-2xl h-[200px] md:h-[400px] w-full">
               <img
                 src={selectedProduct?.image}
                 alt={selectedProduct?.productName}
@@ -77,7 +77,7 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="max-w-xl w-full space-y-4">
+          <div className="max-w-xl w-full space-y-1 md:space-y-4">
             <div className="flex items-center gap-2">
               <h2 className="text-2xl font-semibold">
                 {selectedProduct?.productName}
@@ -134,11 +134,12 @@ useEffect(() => {
       )}
 
       {/* Related Products */}
-   {products && products.length > 0 && (
+ {products && products.length > 0 && (
   <div>
     <h3 className="text-2xl font-semibold mb-6">
       Explore Related Products
     </h3>
+
     <Swiper
       slidesPerView={4}
       spaceBetween={30}
@@ -146,20 +147,38 @@ useEffect(() => {
       navigation={true}
       modules={[Pagination, Navigation]}
       className="mySwiper"
+      breakpoints={{
+        0: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        480: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 30,
+        },
+      }}
     >
       {products
         .filter((item) => item._id !== selectedProduct?._id)
         .map((item) => (
           <SwiperSlide key={item._id}>
-            <div className="bg-white p-4 rounded-xl shadow hover:shadow-md transition flex flex-col items-center h-[60vh]">
-              <div className="h-[30vh] w-[150px] bg-gray-100 mb-4 rounded">
+            <div className=" p-4 rounded-xl shadow hover:shadow-md transition flex flex-col items-center   h-[60vh]">
+              <div className="h-[30vh] w-[100px] md:w-[150px] bg-gray-100 mb-4 rounded">
                 <img
                   src={item.image}
                   alt={item.productName}
                   className="object-cover w-full h-full rounded"
                 />
               </div>
-              <h4 className="font-medium mb-1 text-center">
+              <h4 className="font-medium mb-1 text-center line-clamp-1" >
                 {item.productName}
               </h4>
               <div className="text-sm text-gray-600 mb-1">
@@ -169,7 +188,7 @@ useEffect(() => {
                 ₹{item.price}
               </div>
               <button
-                className="mt-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full"
+                className="mt-auto text-sm md:text-base px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full"
                 onClick={() => {
                   dispatch(setSelectedProduct(item));
                 }}
@@ -182,6 +201,7 @@ useEffect(() => {
     </Swiper>
   </div>
 )}
+
 
     </div>
   );

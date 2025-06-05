@@ -1,117 +1,136 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/action/authActions";
 import { searchProducts } from "../redux/action/userCategoryActions";
-import { FaSearch, FaHeart, FaShoppingCart, FaPhoneAlt, FaBars } from "react-icons/fa";
-import { TopBar } from "./TopBar";
-import { useNavigate } from "react-router-dom";
+import { FaSearch, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-
+import MobileMenu from "./MobileMenu";
 
 const Navbar = () => {
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
+
   const [keyword, setKeyword] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSearch = () => {
     if (keyword.trim()) {
-        dispatch(searchProducts(keyword));
+      dispatch(searchProducts(keyword));
       navigate(`/subcategory/search?keyword=${encodeURIComponent(keyword)}`);
-       setKeyword("");
+      setKeyword("");
+      setIsSearchOpen(false);
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") handleSearch();
-
   };
 
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
-    <nav className="w-full text-sm font-medium sticky top-[-10%] z-[99]  shadow-lg ">
-      {/* Top bar */}
-      <div className="bg-gray-100 text-gray-600 py-2 px-6 flex justify-end space-x-4">
-        <TopBar/>
-      </div>
+    <>
+      <nav className="w-full text-sm font-medium sticky top-0 z-[99] shadow-lg bg-white">
+        <div className="flex items-center justify-between px-6 py-4 shadow">
+          <div className="w-[20%] flex items-center gap-2">
+            {/* Hamburger for Mobile */}
+            <button className="md:hidden text-xl" onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </button>
 
-      {/* Main navbar */}
-      <div className="flex items-center justify-between px-6 py-4 bg-white shadow">
-        {/* Logo */}
-        <Link to="/" className="text-3xl font-bold text-black">
-          Medinest
-        </Link>
-
-        {/* Search Bar */}
-        <div className="flex items-center w-full max-w-2xl mx-6">
-          <select className="border rounded-l px-3 py-2 text-gray-600 bg-gray-100">
-            <option>All Categories</option>
-          </select>
-        <input
-          type="text"
-          placeholder="Search"
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          onKeyDown={handleKeyPress}
-          className="border-t border-b px-3 py-2 w-full"
-        />
-        <button
-          onClick={handleSearch}
-          className="bg-red-500 px-4 py-2 rounded-r text-white hover:bg-red-600"
-        >
-          <FaSearch />
-        </button>
-        </div>
-
-        {/* Icons and Auth */}
-        <div className="flex items-center space-x-6 text-gray-700">
-          {user ? (
-            <>
-            <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold uppercase">
-             {user?.name?.charAt(0)}
-            </span>
-              <button
-                onClick={() => dispatch(logoutUser())}
-                className="text-red-500 hover:underline"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <Link to="/login" className="text-blue-600 hover:underline">
-              Login
+            {/* Logo */}
+            <Link to="/" className="text-xl md:text-3xl font-bold text-green-500">
+              Medinest
             </Link>
-          )}
-       
-            <Link to="/watchlist" className="relative p-2 ">
-            <div className="flex items-center  relative ">
-             <FaShoppingCart className="text-xl" />
-              <div className="text-white  absolute right-0 top-0  bg-red-500 px-1 leading-none   text-sm rounded-full ">1</div>
+          </div>
+
+          {/* NavLinks for Desktop */}
+          <div className="hidden md:flex items-center justify-center text-gray-700 w-fit gap-4">
+            {[
+              { path: "/", label: "HOME" },
+              { path: "/features", label: "FEATURES" },
+              { path: "/shop", label: "SHOP" },
+              { path: "/my-orders", label: "MyOrder" },
+            ].map(({ path, label }) => (
+              <NavLink
+                key={path}
+                to={path}
+                className={({ isActive }) =>
+                  `text-[1.2vw] font-semibold transition duration-200 ${
+                    isActive ? "text-red-600 border-b-2 border-red-600" : ""
+                  }`
+                }
+              >
+                {label}
+              </NavLink>
+            ))}
+          </div>
+
+          {/* Right Controls */}
+          <div className="flex items-center justify-end space-x-2 md:space-x-6 text-gray-700 w-[20%] relative">
+            {/* Search Input */}
+            <div className="flex items-center relative">
+              <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="text-sm md:text-xl text-black px-2 z-20">
+                <FaSearch />
+              </button>
+              <div
+                className={`absolute right-10 top-1/2 -translate-y-1/2 h-8 md:h-10 overflow-hidden border rounded-full flex items-center bg-white transition-all duration-300 ${
+                  isSearchOpen ? "w-[28vw] md:w-[15vw] px-2 border-black" : "w-0 px-0 border-white"
+                }`}
+              >
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  className="w-full bg-transparent outline-none px-2 text-sm"
+                />
+                <button onClick={handleSearch} className="text-black text-sm px-1">
+                  <FaSearch />
+                </button>
+              </div>
             </div>
-             </Link>
-        </div>
-      </div>
 
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between px-6 py-3 bg-white border-t border-gray-200">
-        <div className="flex items-center space-x-2 text-white bg-red-500 px-4 py-2 rounded cursor-pointer">
-          <FaBars />
-          <span>All Categories</span>
-        </div>
+            {/* User Actions */}
+            <div className="hidden md:flex  items-center gap-2">
+              {user ? (
+                <>
+                  <span className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold uppercase">
+                    {user?.name?.charAt(0)}
+                  </span>
+                  <button onClick={() => dispatch(logoutUser())} className="bg-red-500 text-white px-2 py-1 rounded-md  hover:underline">
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" className="text-blue-600 hover:underline">
+                  Login
+                </Link>
+              )}
+            </div>
 
-        <div className="flex items-center space-x-6 text-gray-700">
-          <Link to="/">HOME</Link>
-          <Link to="#">LAYOUTS</Link>
-          <Link to="#">FEATURES</Link>
-          <Link to="#">SHOP</Link>
-          <Link to="/my-orders">MyOrder</Link>
+            {/* Cart Icon */}
+            <Link to="/watchlist" className="relative p-2">
+              <div className="flex items-center relative">
+                <FaShoppingCart className="text-xl" />
+              </div>
+            </Link>
+          </div>
         </div>
+      </nav>
 
-        <div className="flex items-center space-x-2 text-red-500 font-semibold">
-          <FaPhoneAlt />
-          <span>+111 - 222 - 333</span>
-        </div>
-      </div>
-    </nav>
+      {/* Mobile Menu Component */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        toggleMenu={closeMobileMenu}
+        user={user}
+        logoutHandler={() => dispatch(logoutUser())}
+      />
+    </>
   );
 };
 

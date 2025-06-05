@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import api from "../../api/api";
 import {
   USER_REGISTER_REQUEST,
@@ -18,9 +19,11 @@ export const registerUser = (userData, navigate) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST });
     const { data } = await api.post("/user/register", userData);
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data.data });
+    toast.success("User register successful!");
     navigate("/");
   } catch (error) {
     dispatch({ type: USER_REGISTER_FAIL, payload: error.response?.data?.message || "Register failed" });
+     toast.error("Register failed");
   }
 };
 
@@ -30,9 +33,11 @@ export const loginUser = (userData, navigate) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
     const { data } = await api.post("/user/login", userData);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data.data });
+     toast.success("Login successful!");
     navigate("/");
   } catch (error) {
     dispatch({ type: USER_LOGIN_FAIL, payload: error.response?.data?.message || "Login failed" });
+     toast.error("Login failed. Please try again.");
   }
 };
 
@@ -51,4 +56,6 @@ export const loadUser = () => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   await api.post("/user/logout");
   dispatch({ type: USER_LOGOUT });
+  toast.success("User logout successful!");
+
 };

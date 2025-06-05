@@ -61,20 +61,20 @@ const bannerData3 = [
 
   return (
     <div className="w-full  min-h-screen ">
-        <div className="swipersection h-[80vh] w-full  flex justify-center gap-2  items-center  py-4 bg-gray-200 ">
-            <div className="leftside w-[60%] h-full ">
+        <div className="swipersection h-[80vh] w-full  flex md:flex-row flex-col justify-center md:gap-2  items-center  py-4 bg-gray-200 ">
+            <div className="leftside w-full md:w-[60%] h-full ">
                 <SwiperSlideBanner data={bannerData1}/>
             </div>
-            <div className="rightside w-[35%] h-full  flex flex-col  gap-2">
-                <div className="toprightside h-[50%] w-full ">
+            <div className="rightside w-full md:w-[35%] h-full  flex flex-row md:flex-col ">
+                <div className="toprightside md:h-[50%] md:w-full h-full w-1/2  ">
                     <SwiperSlideBanner data={bannerData2}/>
                 </div>
-                <div className="bottomrightside h-[50%] w-full ">
+                <div className="bottomrightside  md:h-[50%] md:w-full h-full w-1/2  ">
                     <SwiperSlideBanner data={bannerData3}/>
                 </div>
             </div>
         </div>
-        <div className="categorysection min-h-[30vh] w-full px-8 ">
+        <div className="categorysection min-h-[30vh] w-full px-2 md:px-8 ">
           <Category/>
         </div>
      

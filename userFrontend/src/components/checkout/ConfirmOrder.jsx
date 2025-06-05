@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createOrder, verifyPayment } from "../../redux/action/paymentAction";
+import { toast } from "react-toastify";
 
 const ConfirmOrder = ({ onBack }) => {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const ConfirmOrder = ({ onBack }) => {
               razorpayPaymentId: response.razorpay_payment_id,
             };
             await dispatch(verifyPayment(paymentData));
-            alert("Payment Successful!");
+            toast.success("Payment Successful!");
             navigate("/order-success");
           },
           prefill: {
@@ -64,8 +65,8 @@ const ConfirmOrder = ({ onBack }) => {
         razorpay.open();
       }
     } else if (paymentMethod === "COD") {
-      await dispatch(createOrder(orderData)); // Create order without Razorpay
-      alert("Order placed successfully! Payment will be collected on delivery.");
+      await dispatch(createOrder(orderData)); 
+      toast.success("Order placed successfully! Payment will be collected on delivery.");
       navigate("/order-success");
     }
   };

@@ -22,12 +22,12 @@ export const Watchlist = () => {
   };
 
   // Derived price breakdown
-  const gst = totalAmount * 0.18;
+  const gst = totalAmount * 0.0;
   const delivery = totalAmount > 0 ? 0 : 0;
   const finalTotal = totalAmount + gst + delivery;
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <h2 className="text-3xl font-bold mb-6">My Watchlist</h2>
 
       {watchlist.length === 0 ? (
@@ -35,8 +35,8 @@ export const Watchlist = () => {
       ) : (
         <div className="flex flex-col md:flex-row gap-6">
           {/* LEFT - Products */}
-          <div className="w-full md:w-2/3">
-            <div className="h-[520px] overflow-y-auto pr-2">
+          <div className="w-full md:w-2/3 ">
+            <div className="h-fit md:h-[520px] overflow-y-auto md:pr-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {watchlist.map((product) => (
                   <div

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import api from "../../api/api";
 import {
   FETCH_USER_ORDERS_REQUEST,
@@ -26,11 +27,13 @@ export const cancelOrder = (orderId) => async (dispatch) => {
     dispatch({ type: CANCEL_ORDER_REQUEST });
     await api.delete(`/buy-now/cancel-order/${orderId}`);
     dispatch({ type: CANCEL_ORDER_SUCCESS, payload: orderId });
+     toast.success("cancel order");
   } catch (error) {
     dispatch({
       type: CANCEL_ORDER_FAIL,
       payload: error.response?.data?.message || "Failed to cancel order",
     });
+    toast.error("Failed to cancel order");
 
   }
 };

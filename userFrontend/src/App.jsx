@@ -8,11 +8,11 @@ import SubCategoryProduct from "./pages/SubCategoryProduct";
 import AddProductSection from "./pages/AddProductSection";
 import {Watchlist} from "./components/Watchlist";
 import AddressStep from "./components/checkout/AddressStep";
-// import PaymentStep from "./components/checkout/PaymentStep";
 import ConfirmOrder from "./components/checkout/ConfirmOrder";
 import OrderSuccess from "./components/checkout/OrderSuccess";
 import CheckoutFlow from "./components/checkout/CheckoutFlow";
 import UserOrders from "./pages/UserOrders";
+import { ToastContainer } from "react-toastify";
 
 
 const App = () => {
@@ -29,14 +29,12 @@ const App = () => {
         <Route path="/watchlist" element={<Watchlist/>} />
         <Route path="/checkout" element={<CheckoutFlow/>} />
         <Route path="/checkout/address" element={<AddressStep/>} />
-        {/* <Route path="/checkout/payment" element={<PaymentStep />} /> */}
         <Route path="/checkout/confirm" element={<ConfirmOrder />} />
         <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/my-orders" element={<UserOrders/>} /> {/* User Orders Route */}
-
-
+        <Route path="/my-orders" element={<UserOrders/>} /> 
       </Routes>
       <Footer/>
+            <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 };

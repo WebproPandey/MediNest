@@ -26,7 +26,7 @@ const UserOrders = () => {
     );
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-5xl mx-auto min-h-screen">
       <h2 className="text-2xl font-bold mb-6">📦 My Orders</h2>
 
       {orders.length === 0 ? (

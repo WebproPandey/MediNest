@@ -8,8 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 
-// import required modules
-// import { Autoplay} from 'swiper/modules';
+import { Autoplay} from 'swiper/modules';
 
 export default function SwiperSlideBanner({ data }) {
   return (
@@ -25,14 +24,13 @@ export default function SwiperSlideBanner({ data }) {
           clickable: false,
         }}
         navigation={false}
-        // modules={[Autoplay]}
+        modules={[Autoplay]}
         className="mySwiper"
       >
           {data.map((item) => (
         <SwiperSlide key={item.id}>
-          <div className={`w-full h-full text-white p-4 flex items-center justify-center flex-col ${item.bgColor}`}>
-            <h2 className="text-xl font-bold mb-2">{item.heading}</h2>
-            <img src={item.image} alt={item.heading} loading="lazy" className="w-3/4 h-40 object-cover rounded-lg" />
+          <div className={`w-full h-full text-white md:p-4  p-2 flex items-center justify-center flex-col ${item.bgColor}`}>
+            <img src={item.image} alt={item.heading} loading="lazy" className="md:w-3/4 md:h-40 h-full  w-full object-cover rounded-lg" />
           </div>
         </SwiperSlide>
       ))}

@@ -36,31 +36,52 @@ const testimonials = [
 
 const FeedbackSection = () => {
   return (
-    <section className="FeedbackSection w-full bg-gray-100 py-16 px-6">
+    <section className="FeedbackSection w-full bg-gray-100 py-6 md:py-16 px-4 md:px-6">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-10">
+        <h2 className="text-xl md:text-4xl font-bold text-gray-800 mb-10">
           What Our Customers Say
         </h2>
 
         <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
+          slidesPerView={1}
+          spaceBetween={10}
           navigation={true}
           pagination={false}
           modules={[Pagination, Navigation]}
           className="mySwiper"
-        
+          breakpoints={{
+            0: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            480: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+          }}
         >
           {testimonials.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition h-full flex flex-col justify-between">
+              <div className="bg-white p-4 md:p-6 rounded-lg shadow-md hover:shadow-lg transition h-full flex flex-col justify-between">
                 <div className="text-yellow-500 flex justify-center mb-2">
                   {[...Array(item.rating)].map((_, i) => (
                     <FaStar key={i} />
                   ))}
                 </div>
-                <p className="text-gray-700 italic mb-4 line-clamp-2 ">"{item.feedback}"</p>
-                <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
+                <p className="text-gray-700 italic mb-4 line-clamp-2">
+                  "{item.feedback}"
+                </p>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {item.name}
+                </h3>
               </div>
             </SwiperSlide>
           ))}

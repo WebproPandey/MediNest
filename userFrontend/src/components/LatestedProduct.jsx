@@ -61,10 +61,11 @@ const handleAddToCart = (product) => {
 };
 
   return (
-    <div className="w-full min-h-screen px-10">
+     
+     <div className="w-full min-h-screen px-2 md:px-10">
       {/* Header Section */}
       <div className="w-full flex items-center justify-between py-4 px-2 bg-gray-200 rounded-md">
-        <div className="text-black font-bold text-2xl flex items-center gap-2">
+        <div className="text-black font-bold text-sm md:text-2xl flex items-center gap-2">
           <FaStar className="text-yellow-500" /> Our Latest Products
         </div>
         <div className="relative flex items-end justify-end gap-6 px-4">
@@ -75,7 +76,7 @@ const handleAddToCart = (product) => {
               <div
                 key={cat._id}
                 onClick={() => setActiveCategoryIndex(idx)}
-                className={`cursor-pointer text-2xl text-black font-medium relative 
+                className={`cursor-pointer text-sm md:text-2xl text-black font-medium relative 
                   after:absolute after:left-0 after:-bottom-2 
                   after:h-[2px] after:bg-gray-400 
                   after:transition-all after:duration-500
@@ -88,14 +89,16 @@ const handleAddToCart = (product) => {
         </div>
       </div>
 
-      <div className="w-full py-10 min-h-screen flex items-center justify-center gap-2">
+      <div className="Productswarper w-full py-10 min-h-screen flex md:flex-row  flex-col-reverse items-center justify-center gap-2">
         {/* Doctor Card */}
-        <div className="w-[30%] h-screen bg-gray-200 shadow-md p-4 flex flex-col items-center justify-start relative">
+        <div className="w-full md:w-[30%]  h-[50vh] md:h-screen bg-gray-200 shadow-md p-4 flex md:flex-col flex-row items-center justify-start relative">
           <img
             src={doctorImage}
             alt="Doctor"
-            className="w-full h-auto object-contain mb-4"
+            className="w-1/2 md:w-full h-full md:h-auto object-contain mb-4"
           />
+          <div className="flex flex-col">
+
           <h3 className="text-xl font-bold text-center text-gray-800 mb-2">
             Talk to a Doctor
           </h3>
@@ -112,10 +115,12 @@ const handleAddToCart = (product) => {
           ) : (
             <ConsultationForm onClose={() => setShowForm(false)} />
           )}
+          </div>
+
         </div>
 
         {/* Products */}
-        <div className="w-[70%] h-screen grid grid-cols-3 gap-4 overflow-y-auto pr-2">
+        <div className="Productswarper w-full md:w-[70%] h-screen grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto pr-2 pb-10">
           {loading ? (
             <div className="col-span-3 text-center text-lg">
               Loading products...

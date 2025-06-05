@@ -48,7 +48,7 @@ const AddressStep = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 md:px-6 px-4">
       <h3 className="text-xl font-semibold mb-2">Delivery Address</h3>
 
       {loading ? (
@@ -56,6 +56,7 @@ const AddressStep = () => {
       ) : addresses.length > 0 ? (
         <div className="space-y-2">
           <h4 className="font-semibold">Select an Address</h4>
+          <div className=" grid grid-cols-1 md:grid-cols-2">
           {addresses.map((address) => (
             <div
               key={address._id}
@@ -69,7 +70,7 @@ const AddressStep = () => {
                 checked={selectedAddressId === address._id}
                 className="mt-1"
               />
-              <div>
+              <div className="grid md:grid-cols-1 grid-cols-2 gap-3">
                 <p><strong>Name:</strong> {address.fullName}</p>
                 <p><strong>Phone:</strong> {address.phone}</p>
                 <p><strong>Pin Code:</strong> {address.pinCode}</p>
@@ -82,14 +83,17 @@ const AddressStep = () => {
               </div>
             </div>
           ))}
+          </div>
+
         </div>
       ) : (
         <p>No addresses found. Please add a new address.</p>
       )}
 
       {/* Add new address form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <h4 className="font-semibold">Add a New Address</h4>
+      <div>
+      <h4 className="font-semibold text-base">Add a New Address</h4>
+      <form onSubmit={handleSubmit} className=" grid md:grid-cols-3 grid-cols-2  w-full gap-3">
 
         {/* Form fields */}
         {["fullName", "phone", "pinCode", "house", "city", "state", "country"].map((field) => (
@@ -98,7 +102,7 @@ const AddressStep = () => {
             type="text"
             name={field}
             placeholder={field.replace(/([A-Z])/g, " $1")}
-            className="w-full border p-2 rounded"
+            className="w-full h-full border px-2 py-2 md:py-3 rounded"
             value={newAddress[field]}
             onChange={handleChange}
             disabled={!!selectedAddressId} // Disable form if existing selected
@@ -106,22 +110,24 @@ const AddressStep = () => {
           />
         ))}
 
-        <div className="flex justify-between mt-4">
+        <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
             onClick={() => navigate("/checkout")}
-            className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+            className="bg-gray-300 text-gray-700 px-4 py-2  text-[2vw] md:text-base rounded"
           >
             Back
           </button>
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 text-white px-4 py-2 rounded text-[2vw] md:text-base"
           >
             Continue to Payment
           </button>
         </div>
       </form>
+      </div>
+
     </div>
   );
 };
