@@ -57,9 +57,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
-// Optional: expose io in req if needed
-
-// Routes
 const adminRoute = require("./routes/adminRoute/adminRoute");
 const paymentRoute = require("./routes/adminRoute/paymentRoute");
 const consultationsRoute = require("./routes/consultantRoute/consultationsRoute");
@@ -88,9 +85,6 @@ app.use("/api", useCategory);
 app.use("/api/address", addressRoute);
 app.use("/api/buy-now", buyNowRoute);
 
-app.get("/test-token", (req, res) => {
-  console.log("Cookies:", req.cookies);
-  res.json({ token: req.cookies.token });
-});
+
 
 module.exports = app;

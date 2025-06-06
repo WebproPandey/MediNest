@@ -6,7 +6,6 @@ const UserOrders = () => {
   const dispatch = useDispatch();
   const { loading, orders, error } = useSelector((state) => state.userOrders);
 
-  console.log("order:" ,orders)
 
   useEffect(() => {
     dispatch(fetchUserOrders());
