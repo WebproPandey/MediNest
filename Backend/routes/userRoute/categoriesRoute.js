@@ -5,6 +5,6 @@ const router = express.Router();
 
 
 router.get('/categories' , getAllCategories);
-router.get('/categories/:categoryId/products',protect('user') , getProductsByCategory);
+router.get('/categories/:categoryId/products', getProductsByCategory);
 
 module.exports = router;

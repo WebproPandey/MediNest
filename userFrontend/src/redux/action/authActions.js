@@ -36,6 +36,7 @@ export const loginUser = (userData, navigate) => async (dispatch) => {
      toast.success("Login successful!");
     navigate("/");
   } catch (error) {
+    console.log(error)
     dispatch({ type: USER_LOGIN_FAIL, payload: error.response?.data?.message || "Login failed" });
      toast.error("Login failed. Please try again.");
   }

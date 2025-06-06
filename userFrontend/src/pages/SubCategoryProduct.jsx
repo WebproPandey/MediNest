@@ -72,12 +72,12 @@ const SubCategoryProduct = () => {
             ))}
         </div>
       ) : error ? (
-        <p className="text-red-500">{error}</p>
+        <p className="text-red-500">{error.message}</p>
       ) : products.length === 0 ? (
         <p>No products found for this category.</p>
       ) : (
         <div className="grid grid-cols-2  md:grid-cols-4 gap-2  md:gap-6">
-          {products.map((product) => (
+          {products?.map((product) => (
             <div
               key={product._id}
               className=" border rounded-2xl shadow hover:shadow-lg transition-all gap-3 p-4 flex flex-col"

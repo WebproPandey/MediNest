@@ -13,9 +13,7 @@ export const fetchUserCategories = () => async (dispatch) => {
   try {
     dispatch({ type: USER_CATEGORY_REQUEST });
 
-    const { data } = await api.get("/categories", {
-      withCredentials: true,
-    });
+    const { data } = await api.get("/categories");
     // console.log("data:" ,data.data)
 
     dispatch({ type: USER_CATEGORY_SUCCESS, payload: data.data });
@@ -37,12 +35,7 @@ export const fetchProductsByCategory = (categoryId) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCTS_BY_CATEGORY_REQUEST });
 
-    const { data } = await api.get(`/categories/${categoryId}/products`, {
-      withCredentials: true,
-    });
-
-
-
+    const { data } = await api.get(`/categories/${categoryId}/products`);
     dispatch({ type: PRODUCTS_BY_CATEGORY_SUCCESS, payload: data.data });
   } catch (error) {
     dispatch({
