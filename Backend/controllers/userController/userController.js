@@ -5,11 +5,11 @@ exports.registerUser = async (req, res) => {
   try {
     const result = await userService.registerUser(req.body);
     if (result.success) {
-      res.cookie('token', result.data.token, {
+      res.cookie("token", result.data.token, {
         httpOnly: true,
         secure: false,
-        sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       });
       delete result.data.token;
     }
@@ -24,11 +24,11 @@ exports.loginUser = async (req, res) => {
   try {
     const result = await userService.loginUser(req.body);
     if (result.success) {
-      res.cookie('token', result.data.token, {
+      res.cookie("token", result.data.token, {
         httpOnly: true,
-        secure: false,
-        sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000
+        secure: process.env.NODE_ENV === "production", // ✅ true in production
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // ✅ 'none' for cross-origin
+        maxAge: 30 * 24 * 60 * 60 * 1000,
       });
       delete result.data.token;
     }
@@ -43,21 +43,20 @@ exports.logout = (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     expires: new Date(0),
-    sameSite: "strict"
+    sameSite: "strict",
   });
   res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
 exports.getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
-
 
 exports.getAllCategories = async (req, res) => {
   try {

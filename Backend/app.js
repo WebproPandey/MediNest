@@ -26,7 +26,9 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
-      secure: process.env.NODE_ENV === "production", 
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     },
   })
@@ -85,5 +87,10 @@ app.use("/api/user", userRoute);
 app.use("/api", useCategory);
 app.use("/api/address", addressRoute);
 app.use("/api/buy-now", buyNowRoute);
+
+app.get("/test-token", (req, res) => {
+  console.log("Cookies:", req.cookies);
+  res.json({ token: req.cookies.token });
+});
 
 module.exports = app;
