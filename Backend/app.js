@@ -8,6 +8,7 @@ const session = require("express-session");
 const passport = require("passport");
 require("./config/passport");
 const connectdb = require("./config/db");
+const MongoStore = require("connect-mongo");
 
 const app = express();
 
@@ -20,9 +21,13 @@ app.use(
     secret: process.env.SESSION_SECRET || "your-secret-key",
     resave: false,
     saveUninitialized: false,
+      store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
+    }),
     cookie: {
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      secure: process.env.NODE_ENV === "production", 
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     },
   })
 );
