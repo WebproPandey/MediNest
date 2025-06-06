@@ -24,10 +24,12 @@ export const addAddress = (addressData) => async (dispatch) => {
   }
 };
 
+
+
 export const fetchAddresses = () => async (dispatch) => {
   try {
     dispatch({ type: FETCH_ADDRESSES_REQUEST });
-    const { data } = await api.get("/address/list");
+    const { data } = await api.get("/address/list", { withCredentials: true }); 
     dispatch({ type: FETCH_ADDRESSES_SUCCESS, payload: data.addresses });
   } catch (error) {
     dispatch({

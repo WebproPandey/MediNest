@@ -102,7 +102,7 @@ const Navbar = () => {
                   <span className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold uppercase">
                     {user?.name?.charAt(0)}
                   </span>
-                  <button onClick={() => dispatch(logoutUser())} className="bg-red-500 text-white px-2 py-1 rounded-md  hover:underline">
+                  <button onClick={() => dispatch(logoutUser(navigate))} className="bg-red-500 text-white px-2 py-1 rounded-md  hover:underline">
                     Logout
                   </button>
                 </>
@@ -128,7 +128,7 @@ const Navbar = () => {
         isOpen={isMobileMenuOpen}
         toggleMenu={closeMobileMenu}
         user={user}
-        logoutHandler={() => dispatch(logoutUser())}
+        logoutHandler={() => dispatch(logoutUser(navigate))}
       />
     </>
   );

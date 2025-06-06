@@ -4,7 +4,7 @@ const { addAddress, getAddresses } = require("../../controllers/userController/a
 
 const router = express.Router();
 
-router.post("/add", addAddress);
-router.get("/list", getAddresses);
+router.post("/add", protect("user"), addAddress);
+router.get("/list", protect("user"), getAddresses);
 
 module.exports = router;

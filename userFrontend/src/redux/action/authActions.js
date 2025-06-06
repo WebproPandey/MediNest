@@ -54,9 +54,14 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Logout
-export const logoutUser = () => async (dispatch) => {
-  await api.post("/user/logout");
-  dispatch({ type: USER_LOGOUT });
-  toast.success("User logout successful!");
+export const logoutUser = (navigate) => async (dispatch) => {
+  try{
+    await api.post("/user/logout");
+    dispatch({ type: USER_LOGOUT });
+    toast.success("User logout successful!");
+    navigate("/");
+  }catch(error){
+
+  }
 
 };
