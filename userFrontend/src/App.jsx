@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/my-orders" element={<UserOrders/>} /> 
       </Routes>
       <Footer/>
-            <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 };
