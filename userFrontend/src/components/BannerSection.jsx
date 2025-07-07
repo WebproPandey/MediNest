@@ -74,7 +74,7 @@ const bannerData3 = [
                 </div>
             </div>
         </div>
-        <div className="categorysection min-h-[30vh] w-full px-2 md:px-8 ">
+        <div className="categorysection min-h-[15vh] w-full px-2 md:px-8 ">
           <Category/>
         </div>
      

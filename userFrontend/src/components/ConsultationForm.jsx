@@ -24,11 +24,11 @@ const ConsultationForm = ({ onClose }) => {
   };
 
   return (
-    <div className="h-[60vh] w-[50vw] fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-gray-300 rounded-md px-4">
+    <div className=" md:h-[60vh] md:w-[50vw] fixed z-[9999] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-gray-300 rounded-md px-4">
 
     <form
       onSubmit={handleSubmit}
-      className="w-full mt-4 flex flex-col gap-3 animate-fadeIn"
+      className="w-full my-4 flex flex-col gap-3 animate-fadeIn"
     >
       <input
         type="text"

@@ -31,7 +31,7 @@ const Category = () => {
 
 
   return (
-    <div className="py-6 md:px-4">
+    <div className="py-2 md:py-6 md:px-4">
       <h2 className="text-2xl font-semibold mb-4">Shop by Category</h2>
 
       {loading ? (
