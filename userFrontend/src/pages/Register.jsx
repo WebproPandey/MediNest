@@ -19,6 +19,12 @@ const Register = () => {
     e.preventDefault();
     dispatch(registerUser(formData, navigate));
   };
+    const handleGoogleLogin = (e) => {
+     e.preventDefault();
+    const googleAuthUrl = `${import.meta.env.VITE_API_BASE_URL}/user/google`;
+    window.location.href = googleAuthUrl;
+  };
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -62,13 +68,13 @@ const Register = () => {
               Login here
             </Link>
           </p>
-          <a
-            href="http://localhost:5000/api/user/google"
-            className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition duration-200 mt-4"
-          >
-            <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
-            Continue with Google
-          </a>
+          <button
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition duration-200 mt-4"
+        >
+          <img src="https://imgs.search.brave.com/5kf8WQuSaBhkOH0NCYJW82iaRhF1HDeY0y1dvM6iySU/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9kZXZl/bG9wZXJzLmdvb2ds/ZS5jb20vc3RhdGlj/L2lkZW50aXR5L2lt/YWdlcy9icmFuZGlu/Z19ndWlkZWxpbmVf/c2FtcGxlX250X3Nx/X3NsLnN2Zw" alt="Google" className="w-5 h-5" />
+          Continue with Google
+        </button>
         </div>
       </div>
     </div>

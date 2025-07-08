@@ -13,9 +13,17 @@ import OrderSuccess from "./components/checkout/OrderSuccess";
 import CheckoutFlow from "./components/checkout/CheckoutFlow";
 import UserOrders from "./pages/UserOrders";
 import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./redux/action/authActions";
 
 
 const App = () => {
+   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
   return (
     <>
       <Navbar/>

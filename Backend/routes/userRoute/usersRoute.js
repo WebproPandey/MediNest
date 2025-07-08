@@ -16,19 +16,21 @@ router.post('/login', validateRequest(loginUserSchema), loginUser);
 router.post("/logout", protect('user') , logout)
 
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-router.get("/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login", session: false }),
+router.get("/google", passport.authenticate("user-google", { scope: ["profile", "email"] }));
+router.get(
+  "/google/callback",
+  passport.authenticate("user-google", { failureRedirect: "/login", session: false }),
   (req, res) => {
-    const token = generateToken(req.user._id, 'user');
+    const token = require("../../utils/generateToken")(req.user._id, "user");
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
-    res.redirect("http://localhost:5174/user/home");
-  }
+
+   const redirectUrl = process.env.USER_ORIGIN || "http://localhost:5173";
+    res.redirect(redirectUrl);  }
 );
 
 router.get('/me', protect('user'), getUserProfile);

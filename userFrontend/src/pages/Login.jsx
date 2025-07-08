@@ -16,8 +16,14 @@ const Login = () => {
     dispatch(loginUser(formData, navigate));
   };
 
+  const handleGoogleLogin = (e) => {
+     e.preventDefault();
+    const googleAuthUrl = `${import.meta.env.VITE_API_BASE_URL}/user/google`;
+    window.location.href = googleAuthUrl;
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 md:relative  absolute top-0 z-[999]">
+    <div className="flex justify-center items-center h-screen bg-gray-100 md:relative absolute top-0 z-[999]">
       <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">
           Login to Your Account
@@ -44,7 +50,6 @@ const Login = () => {
             Login
           </button>
         </form>
-        <div className="">
 
         <p className="text-center text-sm mt-4">
           Don't have an account?{" "}
@@ -52,15 +57,14 @@ const Login = () => {
             Register here
           </Link>
         </p>
-        <a
-          href="http://localhost:5000/api/user/google"
+
+        <button
+          onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition duration-200 mt-4"
         >
-          <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+          <img src="https://imgs.search.brave.com/5kf8WQuSaBhkOH0NCYJW82iaRhF1HDeY0y1dvM6iySU/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9kZXZl/bG9wZXJzLmdvb2ds/ZS5jb20vc3RhdGlj/L2lkZW50aXR5L2lt/YWdlcy9icmFuZGlu/Z19ndWlkZWxpbmVf/c2FtcGxlX250X3Nx/X3NsLnN2Zw" alt="Google" className="w-5 h-5" />
           Continue with Google
-        </a>
-        </div>
-
+        </button>
       </div>
     </div>
   );

@@ -2,9 +2,10 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Admin = require("../models/adminModel");
 const User = require("../models/userModel");
-const generateToken = require("../utils/generateToken");
 
+// Admin Google Strategy
 passport.use(
+  "admin-google",
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
@@ -14,38 +15,46 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const existingAdmin = await Admin.findOne({ email: profile.emails[0].value });
-
-        if (existingAdmin) {
-          return done(null, existingAdmin);
-        }
+        if (existingAdmin) return done(null, existingAdmin);
 
         const adminCount = await Admin.countDocuments();
-        if (adminCount > 0) {
-          return done(null, false, { message: "Only one admin allowed" });
-        }
+        if (adminCount > 0) return done(null, false, { message: "Only one admin allowed" });
 
         const newAdmin = await Admin.create({
           name: profile.displayName,
           email: profile.emails[0].value,
-          password: "google-oauth", // dummy
+          password: "google-oauth",
         });
+        return done(null, newAdmin);
+      } catch (err) {
+        return done(err, false);
+      }
+    }
+  )
+);
 
-        done(null, newAdmin);
-        
+// User Google Strategy
+passport.use(
+  "user-google",
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/api/user/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
         let user = await User.findOne({ email: profile.emails[0].value });
         if (!user) {
           user = await User.create({
             name: profile.displayName,
             email: profile.emails[0].value,
-            password: "google-oauth" // dummy
+            password: "google-oauth", // dummy
           });
         }
-        done(null, user);
-
-
-
+        return done(null, user);
       } catch (err) {
-        done(err, false);
+        return done(err, false);
       }
     }
   )
@@ -53,8 +62,8 @@ passport.use(
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
-  const admin = await Admin.findById(id);
-   const user = await User.findById(id);
-  done(null, user);
-  done(null, admin);
+  let user = await User.findById(id);
+  if (user) return done(null, user);
+  let admin = await Admin.findById(id);
+  return done(null, admin);
 });

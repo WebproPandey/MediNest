@@ -11,6 +11,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
 
+  // console.log("user" ,user)
+
   const [keyword, setKeyword] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -100,7 +102,7 @@ const Navbar = () => {
               {user ? (
                 <>
                   <span className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold uppercase">
-                    {user?.name?.charAt(0)}
+                    {user?.data?.name?.charAt(0)}
                   </span>
                   <button onClick={() => dispatch(logoutUser(navigate))} className="bg-red-500 text-white px-2 py-1 rounded-md  hover:underline">
                     Logout

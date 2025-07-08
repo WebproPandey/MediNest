@@ -1,4 +1,5 @@
 const userService = require("../../services/UserServices/userService");
+const User  =  require("../../models/userModel")
 
 // Register
 exports.registerUser = async (req, res) => {
