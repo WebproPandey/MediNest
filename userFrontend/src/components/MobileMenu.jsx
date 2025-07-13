@@ -38,7 +38,7 @@ const MobileMenu = ({ isOpen, toggleMenu, user, logoutHandler }) => {
         {/* Auth Section */}
         {user ? (
           <>
-            <span className="text-blue-600 font-bold uppercase">{user?.name}</span>
+            <span className="text-blue-600 font-bold uppercase">{user?.data?.name}</span>
             <button
               onClick={() => {
                 logoutHandler();
